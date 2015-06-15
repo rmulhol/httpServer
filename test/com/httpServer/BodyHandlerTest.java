@@ -9,6 +9,32 @@ import static org.junit.Assert.*;
 public class BodyHandlerTest {
 
     @Test
+    public void setsBodyForRootWithDirectoryContents() {
+        HashMap<String, String> rootRequest = new HashMap<String, String>();
+        rootRequest.put("method", "GET");
+        rootRequest.put("uri", "/");
+
+        HashMap<String, byte[]> rootResponse = new HashMap<String, byte[]>();
+
+        new BodyHandler(rootRequest, rootResponse).setBody();
+
+        assertArrayEquals(ResponseBody.publicDirectoryContents(), rootResponse.get("body"));
+    }
+
+    @Test
+    public void setsBodyForFileWithFileContents() {
+        HashMap<String, String> file1Request = new HashMap<String, String>();
+        file1Request.put("method", "GET");
+        file1Request.put("uri", "/file1");
+
+        HashMap<String, byte[]> file1Response = new HashMap<String, byte[]>();
+
+        new BodyHandler(file1Request, file1Response).setBody();
+
+        assertArrayEquals(ResponseBody.fileContents("/file1"), file1Response.get("body"));
+    }
+
+    @Test
     public void setsBodyForUnauthorizedLogsRequest() {
         HashMap<String, String> unauthorizedLogsRequest = new HashMap<String, String>();
         unauthorizedLogsRequest.put("method", "GET");
@@ -18,7 +44,7 @@ public class BodyHandlerTest {
 
         new BodyHandler(unauthorizedLogsRequest, unauthorizedResponse).setBody();
 
-        assertArrayEquals("Authentication required".getBytes(), unauthorizedResponse.get("body"));
+        assertArrayEquals(ResponseBody.authenticationRequired(), unauthorizedResponse.get("body"));
     }
 
     @Test
@@ -32,10 +58,8 @@ public class BodyHandlerTest {
         HashMap<String, byte[]> parametersResponse = new HashMap<String, byte[]>();
 
         new BodyHandler(parametersRequest, parametersResponse).setBody();
-        byte[] expectedOutput = ("/parameters?variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: " +
-                "\"is that all\"?&variable_2 = stuff").getBytes();
 
-        assertArrayEquals(expectedOutput, parametersResponse.get("body"));
+        assertArrayEquals(ResponseBody.parameters(parametersRequest.get("uri")), parametersResponse.get("body"));
 
 
     }
@@ -50,6 +74,6 @@ public class BodyHandlerTest {
 
         new BodyHandler(noBodyRequiredRequest, noBodyResponse).setBody();
 
-        assertArrayEquals("".getBytes(), noBodyResponse.get("body"));
+        assertArrayEquals(ResponseBody.noBody(), noBodyResponse.get("body"));
     }
 }

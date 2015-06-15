@@ -13,9 +13,7 @@ public class StatusHandler {
     }
 
     public void setStatus() {
-        if (request.isMethodOptions()) {
-            response.put("status", ResponseStatus.ok());
-        } else if (request.isParameters()) {
+        if (isOk()) {
             response.put("status", ResponseStatus.ok());
         } else if (request.isRedirect()) {
             response.put("status", ResponseStatus.redirect());
@@ -26,5 +24,10 @@ public class StatusHandler {
         } else {
             response.put("status", ResponseStatus.fourOhFour());
         }
+    }
+
+    private boolean isOk() {
+        return request.isRootRequest() || request.isMethodOptions() ||
+                request.isParameters() || request.isGetDirectoryFile();
     }
 }

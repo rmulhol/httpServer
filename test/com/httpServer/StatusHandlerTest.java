@@ -9,6 +9,19 @@ import static org.junit.Assert.*;
 public class StatusHandlerTest {
 
     @Test
+    public void setsStatusForRootRequest() {
+        HashMap<String, String> rootRequest = new HashMap<String, String>();
+        rootRequest.put("method", "GET");
+        rootRequest.put("uri", "/");
+
+        HashMap<String, byte[]> rootResponse = new HashMap<String, byte[]>();
+
+        new StatusHandler(rootRequest, rootResponse).setStatus();
+
+        assertArrayEquals(ResponseStatus.ok(), rootResponse.get("status"));
+    }
+
+    @Test
     public void setsStatusForMethodOptionsRequest() {
         HashMap<String, String> methodOptionsRequest = new HashMap<String, String>();
         methodOptionsRequest.put("method", "GET");
@@ -19,6 +32,19 @@ public class StatusHandlerTest {
         new StatusHandler(methodOptionsRequest, methodOptionsResponse).setStatus();
 
         assertArrayEquals(ResponseStatus.ok(), methodOptionsResponse.get("status"));
+    }
+
+    @Test
+    public void setsStatusForParametersRequest() {
+        HashMap<String, String> parametersRequest = new HashMap<String, String>();
+        parametersRequest.put("method", "GET");
+        parametersRequest.put("uri", "/parameters?query=this");
+
+        HashMap<String, byte[]> parametersResponse = new HashMap<String, byte[]>();
+
+        new StatusHandler(parametersRequest, parametersResponse).setStatus();
+
+        assertArrayEquals(ResponseStatus.ok(), parametersResponse.get("status"));
     }
 
     @Test

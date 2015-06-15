@@ -13,8 +13,12 @@ public class BodyHandler {
     }
 
     public void setBody() {
-        if (request.isUnauthorized()) {
-            response.put("body", ResponseBody.authorizationRequired());
+        if (request.isRootRequest()) {
+            response.put("body", ResponseBody.publicDirectoryContents());
+        } else if (request.isGetDirectoryFile()) {
+            response.put("body", ResponseBody.fileContents(request.uri));
+        } else if (request.isUnauthorized()) {
+            response.put("body", ResponseBody.authenticationRequired());
         } else if (request.isParameters()) {
             response.put("body", ResponseBody.parameters(request.uri));
         } else {

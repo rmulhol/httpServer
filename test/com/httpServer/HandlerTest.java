@@ -9,6 +9,49 @@ import static org.junit.Assert.*;
 public class HandlerTest {
 
     @Test
+    public void getResponseDelivers200ForRootRequest() {
+        HashMap<String, String> rootRequest = new HashMap<String, String>();
+        rootRequest.put("method", "GET");
+        rootRequest.put("uri", "/");
+
+        HashMap<String, byte[]> rootResponse = new HashMap<String, byte[]>();
+        rootResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        rootResponse.put("header", "\r\n".getBytes());
+
+        String directoryContents = "<p><a href='/file1'>file1</a></p>\r\n" +
+                "<p><a href='/file2'>file2</a></p>\r\n" +
+                "<p><a href='/form'>form</a></p>\r\n" +
+                "<p><a href='/image.gif'>image.gif</a></p>\r\n" +
+                "<p><a href='/image.jpeg'>image.jpeg</a></p>\r\n" +
+                "<p><a href='/image.png'>image.png</a></p>\r\n" +
+                "<p><a href='/partial_content.txt'>partial_content.txt</a></p>\r\n" +
+                "<p><a href='/patch-content.txt'>patch-content.txt</a></p>\r\n" +
+                "<p><a href='/text-file.txt'>text-file.txt</a></p>\r\n";
+
+        rootResponse.put("body", directoryContents.getBytes());
+
+        assertArrayEquals(rootResponse.get("status"), Handler.getResponse(rootRequest).get("status"));
+        assertArrayEquals(rootResponse.get("header"), Handler.getResponse(rootRequest).get("header"));
+        assertArrayEquals(rootResponse.get("body"), Handler.getResponse(rootRequest).get("body"));
+    }
+
+    @Test
+    public void getResponseDelivers200ForGetFormRequest() {
+        HashMap<String, String> formRequest = new HashMap<String, String>();
+        formRequest.put("method", "GET");
+        formRequest.put("uri", "/form");
+
+        HashMap<String, byte[]> formResponse = new HashMap<String, byte[]>();
+        formResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        formResponse.put("header", "\r\n".getBytes());
+        formResponse.put("body", "\"My\"=\"Data\"\n\n".getBytes());
+
+        assertArrayEquals(formResponse.get("status"), Handler.getResponse(formRequest).get("status"));
+        assertArrayEquals(formResponse.get("header"), Handler.getResponse(formRequest).get("header"));
+        assertArrayEquals(formResponse.get("body"), Handler.getResponse(formRequest).get("body"));
+    }
+
+    @Test
     public void getResponseDelivers200ForMethodOptionsRequest() {
         HashMap<String, String> methodOptionsRequest = new HashMap<String, String>();
         methodOptionsRequest.put("method", "GET");

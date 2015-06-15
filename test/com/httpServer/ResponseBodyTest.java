@@ -7,6 +7,21 @@ import static org.junit.Assert.*;
 public class ResponseBodyTest {
 
     @Test
+    public void publicDirectoryLinksReturnsLinksToFilesInPublicDirectory() {
+        String directoryContents = "<p><a href='/file1'>file1</a></p>\r\n" +
+                "<p><a href='/file2'>file2</a></p>\r\n" +
+                "<p><a href='/form'>form</a></p>\r\n" +
+                "<p><a href='/image.gif'>image.gif</a></p>\r\n" +
+                "<p><a href='/image.jpeg'>image.jpeg</a></p>\r\n" +
+                "<p><a href='/image.png'>image.png</a></p>\r\n" +
+                "<p><a href='/partial_content.txt'>partial_content.txt</a></p>\r\n" +
+                "<p><a href='/patch-content.txt'>patch-content.txt</a></p>\r\n" +
+                "<p><a href='/text-file.txt'>text-file.txt</a></p>\r\n";
+
+        assertArrayEquals(directoryContents.getBytes(), ResponseBody.publicDirectoryContents());
+    }
+
+    @Test
     public void noBodyReturnsEmpty() {
         assertArrayEquals("".getBytes(), ResponseBody.noBody());
     }
@@ -25,7 +40,7 @@ public class ResponseBodyTest {
 
     @Test
     public void authorizationRequiredReturnsBody() {
-        assertArrayEquals("Authentication required".getBytes(), ResponseBody.authorizationRequired());
+        assertArrayEquals("Authentication required".getBytes(), ResponseBody.authenticationRequired());
     }
 
 }
