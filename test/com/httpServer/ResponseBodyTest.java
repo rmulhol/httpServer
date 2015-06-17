@@ -42,5 +42,4 @@ public class ResponseBodyTest {
     public void authorizationRequiredReturnsBody() {
         assertArrayEquals("Authentication required".getBytes(), ResponseBody.authenticationRequired());
     }
-
 }

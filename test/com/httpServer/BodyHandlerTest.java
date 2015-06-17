@@ -60,8 +60,6 @@ public class BodyHandlerTest {
         new BodyHandler(parametersRequest, parametersResponse).setBody();
 
         assertArrayEquals(ResponseBody.parameters(parametersRequest.get("uri")), parametersResponse.get("body"));
-
-
     }
 
     @Test
