@@ -20,5 +20,4 @@ public class MyFileReaderTest {
         String file1Contents = new String(MyFileReader.readFileContents("/file1"));
         assertEquals("file1 contents", file1Contents);
     }
-
 }

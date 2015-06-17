@@ -13,6 +13,4 @@ public class ResponseHeader {
     public static byte[] noHeader() {
         return "\r\n".getBytes();
     }
-
-
 }

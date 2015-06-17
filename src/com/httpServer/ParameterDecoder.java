@@ -1,19 +1,18 @@
 package com.httpServer;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ParameterDecoder {
 
     public static String decode(String parameters) {
         String out = parameters.replace("=", " = ");
-        for(Map.Entry<String, String> entry : symbolCodeConversions().entrySet()) {
+        for(Map.Entry<String, String> entry : symbolCodeConversions()) {
             out = out.replace(entry.getKey(), entry.getValue());
         }
         return out;
     }
 
-    private static HashMap<String, String> symbolCodeConversions() {
+    private static Set<Map.Entry<String, String>> symbolCodeConversions() {
         HashMap<String, String> symbolCodeConversions = new HashMap<String, String>();
         symbolCodeConversions.put("%20", " ");
         symbolCodeConversions.put("%2C", ",");
@@ -31,8 +30,6 @@ public class ParameterDecoder {
         symbolCodeConversions.put("%3A", ":");
         symbolCodeConversions.put("%22", "\"");
         symbolCodeConversions.put("%3F", "?");
-        return symbolCodeConversions;
+        return Collections.unmodifiableSet(symbolCodeConversions.entrySet());
     }
-
-
 }

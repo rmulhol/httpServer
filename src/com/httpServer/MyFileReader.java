@@ -19,8 +19,7 @@ public class MyFileReader {
             return Files.readAllBytes(path);
         } catch (IOException e) {
             e.printStackTrace();
-            return new byte[1];
+            return "Error: File Could Not Be Read.".getBytes();
         }
     }
-
 }

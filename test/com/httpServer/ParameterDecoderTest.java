@@ -95,5 +95,4 @@ public class ParameterDecoderTest {
     public void testParsesQuestionMarkCode() {
         assertEquals("GET /some?text HTTP/1.1", ParameterDecoder.decode("GET /some%3Ftext HTTP/1.1"));
     }
-
 }
