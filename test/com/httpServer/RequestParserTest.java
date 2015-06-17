@@ -126,4 +126,49 @@ public class RequestParserTest {
 
         assertTrue(!new RequestParser(allowedRequest).isNotAllowed());
     }
+
+    @Test
+    public void isEditFormReturnsTrueForPutFormRequest() {
+        HashMap<String, String> putFormRequest = new HashMap<String, String>();
+        putFormRequest.put("method", "PUT");
+        putFormRequest.put("uri", "/form");
+
+        assertTrue(new RequestParser(putFormRequest).isEditForm());
+    }
+
+    @Test
+    public void isEditFormReturnsTrueForPostFormRequest() {
+        HashMap<String, String> postFormRequest = new HashMap<String, String>();
+        postFormRequest.put("method", "POST");
+        postFormRequest.put("uri", "/form");
+
+        assertTrue(new RequestParser(postFormRequest).isEditForm());
+    }
+
+    @Test
+    public void isEditFormReturnsFalseForNonPutOrPostFormRequest() {
+        HashMap<String, String> nonPutPostFormRequest = new HashMap<String, String>();
+        nonPutPostFormRequest.put("method", "GET");
+        nonPutPostFormRequest.put("uri", "/form");
+
+        assertTrue(!new RequestParser(nonPutPostFormRequest).isEditForm());
+    }
+
+    @Test
+    public void isDeleteFormReturnsTrueForDeleteFormRequest() {
+        HashMap<String, String> deleteFormRequest = new HashMap<String, String>();
+        deleteFormRequest.put("method", "DELETE");
+        deleteFormRequest.put("uri", "/form");
+
+        assertTrue(new RequestParser(deleteFormRequest).isDeleteForm());
+    }
+
+    @Test
+    public void isDeleteFormReturnsFalseForNonDeleteFormRequest() {
+        HashMap<String, String> nonDeleteFormRequest = new HashMap<String, String>();
+        nonDeleteFormRequest.put("method", "DELETE");
+        nonDeleteFormRequest.put("uri", "/file1");
+
+        assertTrue(!new RequestParser(nonDeleteFormRequest).isDeleteForm());
+    }
 }

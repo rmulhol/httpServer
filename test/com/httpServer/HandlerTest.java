@@ -37,18 +37,112 @@ public class HandlerTest {
 
     @Test
     public void getResponseDelivers200ForGetFormRequest() {
-        HashMap<String, String> formRequest = new HashMap<String, String>();
-        formRequest.put("method", "GET");
-        formRequest.put("uri", "/form");
+        HashMap<String, String> getFormRequest = new HashMap<String, String>();
+        getFormRequest.put("method", "GET");
+        getFormRequest.put("uri", "/form");
 
-        HashMap<String, byte[]> formResponse = new HashMap<String, byte[]>();
-        formResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
-        formResponse.put("header", "\r\n".getBytes());
-        formResponse.put("body", "\"My\"=\"Data\"\n\n".getBytes());
+        HashMap<String, byte[]> getFormResponse = new HashMap<String, byte[]>();
+        getFormResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        getFormResponse.put("header", "\r\n".getBytes());
+        getFormResponse.put("body", "\"My\"=\"Data\"\n\n".getBytes());
 
-        assertArrayEquals(formResponse.get("status"), Handler.getResponse(formRequest).get("status"));
-        assertArrayEquals(formResponse.get("header"), Handler.getResponse(formRequest).get("header"));
-        assertArrayEquals(formResponse.get("body"), Handler.getResponse(formRequest).get("body"));
+        assertArrayEquals(getFormResponse.get("status"), Handler.getResponse(getFormRequest).get("status"));
+        assertArrayEquals(getFormResponse.get("header"), Handler.getResponse(getFormRequest).get("header"));
+        assertArrayEquals(getFormResponse.get("body"), Handler.getResponse(getFormRequest).get("body"));
+    }
+
+    @Test
+    public void getResponseDelivers200ForPutFormRequest() {
+        HashMap<String, String> putFormRequest = new HashMap<String, String>();
+        putFormRequest.put("method", "PUT");
+        putFormRequest.put("uri", "/form");
+        putFormRequest.put("body", "\"My\"=\"Data\"\n");
+
+        HashMap<String, byte[]> putFormResponse = new HashMap<String, byte[]>();
+        putFormResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        putFormResponse.put("header", "\r\n".getBytes());
+        putFormResponse.put("body", "".getBytes());
+
+        assertArrayEquals(putFormResponse.get("status"), Handler.getResponse(putFormRequest).get("status"));
+        assertArrayEquals(putFormResponse.get("header"), Handler.getResponse(putFormRequest).get("header"));
+        assertArrayEquals(putFormResponse.get("body"), Handler.getResponse(putFormRequest).get("body"));
+    }
+
+    @Test
+    public void getResponseDelivers200ForPostFormRequest() {
+        HashMap<String, String> postFormRequest = new HashMap<String, String>();
+        postFormRequest.put("method", "POST");
+        postFormRequest.put("uri", "/form");
+        postFormRequest.put("body", "\"My\"=\"Data\"\n");
+
+        HashMap<String, byte[]> postFormResponse = new HashMap<String, byte[]>();
+        postFormResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        postFormResponse.put("header", "\r\n".getBytes());
+        postFormResponse.put("body", "".getBytes());
+
+        assertArrayEquals(postFormResponse.get("status"), Handler.getResponse(postFormRequest).get("status"));
+        assertArrayEquals(postFormResponse.get("header"), Handler.getResponse(postFormRequest).get("header"));
+        assertArrayEquals(postFormResponse.get("body"), Handler.getResponse(postFormRequest).get("body"));
+    }
+
+    @Test
+    public void getResponseDelivers200ForDeleteFormRequest() {
+        HashMap<String, String> deleteFormRequest = new HashMap<String, String>();
+        deleteFormRequest.put("method", "DELETE");
+        deleteFormRequest.put("uri", "/form");
+
+        HashMap<String, byte[]> deleteFormResponse = new HashMap<String, byte[]>();
+        deleteFormResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        deleteFormResponse.put("header", "\r\n".getBytes());
+        deleteFormResponse.put("body", "".getBytes());
+
+        assertArrayEquals(deleteFormResponse.get("status"), Handler.getResponse(deleteFormRequest).get("status"));
+        assertArrayEquals(deleteFormResponse.get("header"), Handler.getResponse(deleteFormRequest).get("header"));
+        assertArrayEquals(deleteFormResponse.get("body"), Handler.getResponse(deleteFormRequest).get("body"));
+
+        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
+        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+    }
+
+    @Test
+    public void getResponseModifiesFormForPutFormRequest() {
+        HashMap<String, String> putFormRequest = new HashMap<String, String>();
+        putFormRequest.put("method", "PUT");
+        putFormRequest.put("uri", "/form");
+        putFormRequest.put("body", "test data");
+
+        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        Handler.getResponse(putFormRequest);
+        assertArrayEquals("test data\n".getBytes(), MyFileReader.readFileContents("/form"));
+        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
+        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+    }
+
+    @Test
+    public void getResponseModifiesFormForPostFormRequest() {
+        HashMap<String, String> postFormRequest = new HashMap<String, String>();
+        postFormRequest.put("method", "POST");
+        postFormRequest.put("uri", "/form");
+        postFormRequest.put("body", "test data");
+
+        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        Handler.getResponse(postFormRequest);
+        assertArrayEquals("test data\n".getBytes(), MyFileReader.readFileContents("/form"));
+        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
+        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+    }
+
+    @Test
+    public void getResponseDeletesFormsContentsForDeleteFormRequest() {
+        HashMap<String, String> deleteFormRequest = new HashMap<String, String>();
+        deleteFormRequest.put("method", "DELETE");
+        deleteFormRequest.put("uri", "/form");
+
+        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        Handler.getResponse(deleteFormRequest);
+        assertArrayEquals("\n".getBytes(), MyFileReader.readFileContents("/form"));
+        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
+        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
     }
 
     @Test

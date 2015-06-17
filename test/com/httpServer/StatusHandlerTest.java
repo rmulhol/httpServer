@@ -48,6 +48,45 @@ public class StatusHandlerTest {
     }
 
     @Test
+    public void setsStatusForPutFormRequest() {
+        HashMap<String, String> putFormRequest = new HashMap<String, String>();
+        putFormRequest.put("method", "PUT");
+        putFormRequest.put("uri", "/form");
+
+        HashMap<String, byte[]> putFormResponse = new HashMap<String, byte[]>();
+
+        new StatusHandler(putFormRequest, putFormResponse).setStatus();
+
+        assertArrayEquals(ResponseStatus.ok(), putFormResponse.get("status"));
+    }
+
+    @Test
+    public void setsStatusForPostFormRequest() {
+        HashMap<String, String> postFormRequest = new HashMap<String, String>();
+        postFormRequest.put("method", "POST");
+        postFormRequest.put("uri", "/form");
+
+        HashMap<String, byte[]> postFormResponse = new HashMap<String, byte[]>();
+
+        new StatusHandler(postFormRequest, postFormResponse).setStatus();
+
+        assertArrayEquals(ResponseStatus.ok(), postFormResponse.get("status"));
+    }
+
+    @Test
+    public void setsStatusForDeleteFormRequest() {
+        HashMap<String, String> deleteFormRequest = new HashMap<String, String>();
+        deleteFormRequest.put("method", "DELETE");
+        deleteFormRequest.put("uri", "/form");
+
+        HashMap<String, byte[]> deleteFormResponse = new HashMap<String, byte[]>();
+
+        new StatusHandler(deleteFormRequest, deleteFormResponse).setStatus();
+
+        assertArrayEquals(ResponseStatus.ok(), deleteFormResponse.get("status"));
+    }
+
+    @Test
     public void setsStatusForRedirectRequest() {
         HashMap<String, String> redirectRequest = new HashMap<String, String>();
         redirectRequest.put("method", "GET");

@@ -28,6 +28,7 @@ public class StatusHandler {
 
     private boolean isOk() {
         return request.isRootRequest() || request.isMethodOptions() ||
-                request.isParameters() || request.isGetDirectoryFile();
+                request.isParameters() || request.isGetDirectoryFile() ||
+                request.isEditForm() || request.isDeleteForm();
     }
 }

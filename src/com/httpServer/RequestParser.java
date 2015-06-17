@@ -8,10 +8,12 @@ public class RequestParser {
 
     private final HashMap<String, String> request;
     final String uri;
+    final String body;
 
     RequestParser(HashMap<String, String> request) {
         this.request = request;
         this.uri = request.get("uri");
+        this.body = request.get("body");
     }
 
     public boolean isRootRequest() {
@@ -45,5 +47,14 @@ public class RequestParser {
         String requestMethod = request.get("method");
         return (requestMethod.equals("PUT") || requestMethod.equals("POST") || requestMethod.equals("DELETE")) &&
                 !request.get("uri").equals("/form");
+    }
+
+    public boolean isEditForm() {
+        String requestMethod = request.get("method");
+        return (requestMethod.equals("PUT") || requestMethod.equals("POST")) && request.get("uri").equals("/form");
+    }
+
+    public boolean isDeleteForm() {
+        return request.get("method").equals("DELETE") && request.get("uri").equals("/form");
     }
 }

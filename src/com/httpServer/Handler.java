@@ -10,6 +10,7 @@ public class Handler {
         new StatusHandler(request, response).setStatus();
         new HeaderHandler(request, response).setHeader();
         new BodyHandler(request, response).setBody();
+        new FileWritingHandler(request, response).setFile();
 
         return response;
     }
