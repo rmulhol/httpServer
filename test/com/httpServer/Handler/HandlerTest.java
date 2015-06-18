@@ -17,7 +17,7 @@ public class HandlerTest {
         rootRequest.put("uri", "/");
 
         HashMap<String, byte[]> rootResponse = new HashMap<String, byte[]>();
-        rootResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        rootResponse.put("status", "200 OK\r\n".getBytes());
         rootResponse.put("header", "\r\n".getBytes());
 
         String directoryContents = "<p><a href='/file1'>file1</a></p>\r\n" +
@@ -44,7 +44,7 @@ public class HandlerTest {
         methodOptionsRequest.put("uri", "/method_options");
 
         HashMap<String, byte[]> methodOptionsResponse = new HashMap<String, byte[]>();
-        methodOptionsResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        methodOptionsResponse.put("status", "200 OK\r\n".getBytes());
         methodOptionsResponse.put("header", "Allow: GET,HEAD,POST,OPTIONS,PUT\r\n".getBytes());
         methodOptionsResponse.put("body", "".getBytes());
 
@@ -62,7 +62,7 @@ public class HandlerTest {
                 "&variable_2=stuff");
 
         HashMap<String, byte[]> parametersResponse = new HashMap<String, byte[]>();
-        parametersResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        parametersResponse.put("status", "200 OK\r\n".getBytes());
         parametersResponse.put("header", "\r\n".getBytes());
         parametersResponse.put("body", ("/parameters?variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: " +
                 "\"is that all\"?&variable_2 = stuff").getBytes());
@@ -79,7 +79,7 @@ public class HandlerTest {
         getFormRequest.put("uri", "/form");
 
         HashMap<String, byte[]> getFormResponse = new HashMap<String, byte[]>();
-        getFormResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        getFormResponse.put("status", "200 OK\r\n".getBytes());
         getFormResponse.put("header", "\r\n".getBytes());
         getFormResponse.put("body", "\"My\"=\"Data\"\n".getBytes());
 
@@ -96,7 +96,7 @@ public class HandlerTest {
         putFormRequest.put("body", "\"My\"=\"Data\"");
 
         HashMap<String, byte[]> putFormResponse = new HashMap<String, byte[]>();
-        putFormResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        putFormResponse.put("status", "200 OK\r\n".getBytes());
         putFormResponse.put("header", "\r\n".getBytes());
         putFormResponse.put("body", "".getBytes());
 
@@ -113,7 +113,7 @@ public class HandlerTest {
         postFormRequest.put("body", "\"My\"=\"Data\"");
 
         HashMap<String, byte[]> postFormResponse = new HashMap<String, byte[]>();
-        postFormResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        postFormResponse.put("status", "200 OK\r\n".getBytes());
         postFormResponse.put("header", "\r\n".getBytes());
         postFormResponse.put("body", "".getBytes());
 
@@ -129,7 +129,7 @@ public class HandlerTest {
         deleteFormRequest.put("uri", "/form");
 
         HashMap<String, byte[]> deleteFormResponse = new HashMap<String, byte[]>();
-        deleteFormResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        deleteFormResponse.put("status", "200 OK\r\n".getBytes());
         deleteFormResponse.put("header", "\r\n".getBytes());
         deleteFormResponse.put("body", "".getBytes());
 
@@ -190,7 +190,7 @@ public class HandlerTest {
         patchRequest.put("body", "default content");
 
         HashMap<String, byte[]> patchResponse = new HashMap<String, byte[]>();
-        patchResponse.put("status", "HTTP/1.1 204 No Content\r\n".getBytes());
+        patchResponse.put("status", "204 No Content\r\n".getBytes());
         patchResponse.put("header", "\r\n".getBytes());
         patchResponse.put("body", "".getBytes());
 
@@ -221,7 +221,7 @@ public class HandlerTest {
         partialContentRequest.put("range", "0-4");
 
         HashMap<String, byte[]> partialContentResponse = new HashMap<String, byte[]>();
-        partialContentResponse.put("status", "HTTP/1.1 206 Partial Content\r\n".getBytes());
+        partialContentResponse.put("status", "206 Partial Content\r\n".getBytes());
         partialContentResponse.put("header", "\r\n".getBytes());
         partialContentResponse.put("body", "This ".getBytes());
 
@@ -237,7 +237,7 @@ public class HandlerTest {
         redirectRequest.put("uri", "/redirect");
 
         HashMap<String, byte[]> redirectResponse = new HashMap<String, byte[]>();
-        redirectResponse.put("status", "HTTP/1.1 302 Found\r\n".getBytes());
+        redirectResponse.put("status", "302 Found\r\n".getBytes());
         redirectResponse.put("header", "Location: http://localhost:5000/\r\n".getBytes());
         redirectResponse.put("body", "".getBytes());
 
@@ -253,7 +253,7 @@ public class HandlerTest {
         unauthorizedLogsRequest.put("uri", "/logs");
 
         HashMap<String, byte[]> unauthorizedResponse= new HashMap<String, byte[]>();
-        unauthorizedResponse.put("status", "HTTP/1.1 401 Unauthorized\r\n".getBytes());
+        unauthorizedResponse.put("status", "401 Unauthorized\r\n".getBytes());
         unauthorizedResponse.put("header", "\r\n".getBytes());
         unauthorizedResponse.put("body", "Authentication required".getBytes());
 
@@ -269,7 +269,7 @@ public class HandlerTest {
         unrecognizedRequest.put("uri", "/foobar");
 
         HashMap<String, byte[]> fourOhFourResponse = new HashMap<String, byte[]>();
-        fourOhFourResponse.put("status", "HTTP/1.1 404 Not Found\r\n".getBytes());
+        fourOhFourResponse.put("status", "404 Not Found\r\n".getBytes());
         fourOhFourResponse.put("header", "\r\n".getBytes());
         fourOhFourResponse.put("body", "".getBytes());
 
@@ -285,7 +285,7 @@ public class HandlerTest {
         notAllowedRequest.put("uri", "/file1");
 
         HashMap<String, byte[]> notAllowedResponse = new HashMap<String, byte[]>();
-        notAllowedResponse.put("status", "HTTP/1.1 405 Method Not Allowed\r\n".getBytes());
+        notAllowedResponse.put("status", "405 Method Not Allowed\r\n".getBytes());
         notAllowedResponse.put("header", "\r\n".getBytes());
         notAllowedResponse.put("body", "".getBytes());
 

@@ -5,24 +5,29 @@ import java.util.HashMap;
 public class ResponseJoiner {
 
     public static byte[] join(HashMap<String, byte[]> responseMap) {
+        byte[] httpProtocol = "HTTP/1.1 ".getBytes();
+
         byte[] status = responseMap.get("status");
         byte[] header = responseMap.get("header");
         byte[] body = responseMap.get("body");
 
+        int protocolLength = httpProtocol.length;
         int statusLength = status.length;
         int headerLength = header.length;
         int bodyLength = body.length;
 
-        int responseLength = statusLength + headerLength + bodyLength;
+        int responseLength = protocolLength + statusLength + headerLength + bodyLength;
         byte[] response = new byte[responseLength];
 
         for (int i = 0; i < responseLength; i++) {
-            if (i < statusLength) {
-                response[i] = status[i];
-            } else if (i < statusLength + headerLength) {
-                response[i] = header[i - statusLength];
+            if (i < protocolLength) {
+                response[i] = httpProtocol[i];
+            } else if (i < protocolLength + statusLength) {
+                response[i] = status[i - protocolLength];
+            } else if (i < protocolLength + statusLength + headerLength) {
+                response[i] = header[i - statusLength - protocolLength];
             } else {
-                response[i] = body[i - statusLength - headerLength];
+                response[i] = body[i - headerLength - statusLength - protocolLength];
             }
         }
 

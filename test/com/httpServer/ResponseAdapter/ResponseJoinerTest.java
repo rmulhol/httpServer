@@ -11,7 +11,7 @@ public class ResponseJoinerTest {
     @Test
     public void joinsStatusHeaderAndBody() {
         HashMap<String, byte[]> response = new HashMap<String, byte[]>();
-        response.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        response.put("status", "200 OK\r\n".getBytes());
         response.put("header", "\r\n".getBytes());
         response.put("body", "".getBytes());
 
