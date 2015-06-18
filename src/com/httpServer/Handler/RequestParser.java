@@ -29,7 +29,7 @@ public class RequestParser {
     }
 
     public boolean isMethodOptions() {
-        return getMethod().equals("GET") && getUri().equals("/method_options");
+        return getMethod().equals("OPTIONS") && getUri().equals("/method_options");
     }
 
     public boolean isParameters() {

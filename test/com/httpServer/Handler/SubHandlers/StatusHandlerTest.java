@@ -25,7 +25,7 @@ public class StatusHandlerTest {
     @Test
     public void setsStatusForMethodOptionsRequest() {
         HashMap<String, String> methodOptionsRequest = new HashMap<String, String>();
-        methodOptionsRequest.put("method", "GET");
+        methodOptionsRequest.put("method", "OPTIONS");
         methodOptionsRequest.put("uri", "/method_options");
 
         HashMap<String, byte[]> methodOptionsResponse = new HashMap<String, byte[]>();

@@ -7,7 +7,7 @@ import com.httpServer.Handler.SubHandlers.StatusHandler;
 
 import java.util.HashMap;
 
-class Handler {
+public class Handler {
 
     public static HashMap<String, byte[]> getResponse(HashMap<String, String> request) {
         HashMap<String, byte[]> response = new HashMap<String, byte[]>();

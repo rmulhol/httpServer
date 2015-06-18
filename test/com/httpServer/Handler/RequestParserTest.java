@@ -47,7 +47,7 @@ public class RequestParserTest {
     @Test
     public void isMethodOptionsReturnsTrueForGetMethodOptions() {
         HashMap<String, String> methodOptionsRequest = new HashMap<String, String>();
-        methodOptionsRequest.put("method", "GET");
+        methodOptionsRequest.put("method", "OPTIONS");
         methodOptionsRequest.put("uri", "/method_options");
 
         assertTrue(new RequestParser(methodOptionsRequest).isMethodOptions());
