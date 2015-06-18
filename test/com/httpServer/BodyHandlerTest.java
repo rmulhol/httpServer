@@ -63,6 +63,20 @@ public class BodyHandlerTest {
     }
 
     @Test
+    public void setsBodyForPartialContentRequest() {
+        HashMap<String, String> partialContentRequest  = new HashMap<String, String>();
+        partialContentRequest.put("method", "GET");
+        partialContentRequest.put("uri", "/partial_content.txt");
+        partialContentRequest.put("range", "0-4");
+
+        HashMap<String, byte[]> partialContentResponse = new HashMap<String, byte[]>();
+
+        new BodyHandler(partialContentRequest, partialContentResponse).setBody();
+
+        assertArrayEquals(ResponseBody.partialContent("0-4"), partialContentResponse.get("body"));
+    }
+
+    @Test
     public void setsBodyForRequestWithoutBody() {
         HashMap<String, String> noBodyRequiredRequest = new HashMap<String, String>();
         noBodyRequiredRequest.put("method", "GET");

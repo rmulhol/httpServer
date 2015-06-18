@@ -23,6 +23,10 @@ public class RequestParser {
     public boolean isGetDirectoryFile() {
         File thisFile = new File(System.getProperty("user.dir") + "/public" + uri);
         return request.get("method").equals("GET") &&
+                // need to specifically exclude this file to make order irrelevant for status parsing,
+                // since get partial content should return a 206, rather than a 200;
+                // probably also relevant for body parsing - only want to return specified range, not whole file;
+                !request.get("uri").equals("/partial_content.txt") &&
                 Arrays.asList(MyFileReader.readDirectoryContents()).contains(thisFile);
     }
 
@@ -32,6 +36,10 @@ public class RequestParser {
 
     public boolean isParameters() {
         return request.get("method").equals("GET") && request.get("uri").contains("/parameters");
+    }
+
+    public boolean isGetPartialContent() {
+        return request.get("method").equals("GET") && request.get("uri").equals("/partial_content.txt");
     }
 
     public boolean isRedirect() {
@@ -56,5 +64,9 @@ public class RequestParser {
 
     public boolean isDeleteForm() {
         return request.get("method").equals("DELETE") && request.get("uri").equals("/form");
+    }
+
+    public String getRange() {
+        return request.get("range");
     }
 }

@@ -22,6 +22,11 @@ public class ResponseBodyTest {
     }
 
     @Test
+    public void fileContentsReturnsContentsOfFile() {
+        assertArrayEquals("file1 contents".getBytes(), ResponseBody.fileContents("/file1"));
+    }
+
+    @Test
     public void noBodyReturnsEmpty() {
         assertArrayEquals("".getBytes(), ResponseBody.noBody());
     }
@@ -39,7 +44,12 @@ public class ResponseBodyTest {
     }
 
     @Test
-    public void authorizationRequiredReturnsBody() {
+    public void partialContentReturnsContentSpecifiedByPassedRange() {
+        assertArrayEquals("This ".getBytes(), ResponseBody.partialContent("0-4"));
+    }
+
+    @Test
+    public void authenticationRequiredReturnsBody() {
         assertArrayEquals("Authentication required".getBytes(), ResponseBody.authenticationRequired());
     }
 }

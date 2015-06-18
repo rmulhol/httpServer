@@ -21,6 +21,8 @@ public class BodyHandler {
             response.put("body", ResponseBody.authenticationRequired());
         } else if (request.isParameters()) {
             response.put("body", ResponseBody.parameters(request.uri));
+        } else if (request.isGetPartialContent()) {
+            response.put("body", ResponseBody.partialContent(request.getRange()));
         } else {
             response.put("body", ResponseBody.noBody());
         }

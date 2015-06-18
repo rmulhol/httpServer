@@ -12,6 +12,11 @@ public class ResponseStatusTest {
     }
 
     @Test
+    public void partialContentReturns206() {
+        assertArrayEquals("HTTP/1.1 206 Partial Content\r\n".getBytes(), ResponseStatus.partialContent());
+    }
+
+    @Test
     public void redirectReturns302() {
         assertArrayEquals("HTTP/1.1 302 Found\r\n".getBytes(), ResponseStatus.redirect());
     }

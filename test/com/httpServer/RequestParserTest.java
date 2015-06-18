@@ -83,6 +83,24 @@ public class RequestParserTest {
     }
 
     @Test
+    public void isGetPartialContentReturnsTrueForGetPartialContentRequest() {
+        HashMap<String, String> getPartialContentRequest = new HashMap<String, String>();
+        getPartialContentRequest.put("method", "GET");
+        getPartialContentRequest.put("uri", "/partial_content.txt");
+
+        assertTrue(new RequestParser(getPartialContentRequest).isGetPartialContent());
+    }
+
+    @Test
+    public void isGetPartialContentReturnsFalseForNonGetPartialContentRequest() {
+        HashMap<String, String> nonGetPartialContentRequest = new HashMap<String, String>();
+        nonGetPartialContentRequest.put("method", "PUT");
+        nonGetPartialContentRequest.put("uri", "/partial_content.txt");
+
+        assertTrue(!new RequestParser(nonGetPartialContentRequest).isGetPartialContent());
+    }
+
+    @Test
     public void isRedirectReturnsTrueForGetRedirect() {
         HashMap<String, String> redirectRequest = new HashMap<String, String>();
         redirectRequest.put("method", "GET");

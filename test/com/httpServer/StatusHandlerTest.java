@@ -87,6 +87,19 @@ public class StatusHandlerTest {
     }
 
     @Test
+    public void setsStatusForPartialContentRequest() {
+        HashMap<String, String> partialContentRequest = new HashMap<String, String>();
+        partialContentRequest.put("method", "GET");
+        partialContentRequest.put("uri", "/partial_content.txt");
+
+        HashMap<String, byte[]> partialContentResponse = new HashMap<String, byte[]>();
+
+        new StatusHandler(partialContentRequest, partialContentResponse).setStatus();
+
+        assertArrayEquals(ResponseStatus.partialContent(), partialContentResponse.get("status"));
+    }
+
+    @Test
     public void setsStatusForRedirectRequest() {
         HashMap<String, String> redirectRequest = new HashMap<String, String>();
         redirectRequest.put("method", "GET");

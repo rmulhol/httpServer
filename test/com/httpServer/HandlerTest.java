@@ -36,6 +36,41 @@ public class HandlerTest {
     }
 
     @Test
+    public void getResponseDelivers200ForMethodOptionsRequest() {
+        HashMap<String, String> methodOptionsRequest = new HashMap<String, String>();
+        methodOptionsRequest.put("method", "GET");
+        methodOptionsRequest.put("uri", "/method_options");
+
+        HashMap<String, byte[]> methodOptionsResponse = new HashMap<String, byte[]>();
+        methodOptionsResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        methodOptionsResponse.put("header", "Allow: GET,HEAD,POST,OPTIONS,PUT\r\n".getBytes());
+        methodOptionsResponse.put("body", "".getBytes());
+
+        assertArrayEquals(methodOptionsResponse.get("status"), Handler.getResponse(methodOptionsRequest).get("status"));
+        assertArrayEquals(methodOptionsResponse.get("header"), Handler.getResponse(methodOptionsRequest).get("header"));
+        assertArrayEquals(methodOptionsResponse.get("body"), Handler.getResponse(methodOptionsRequest).get("body"));
+    }
+
+    @Test
+    public void getResponseDelivers200ForParametersRequest() {
+        HashMap<String, String> parametersRequest = new HashMap<String, String>();
+        parametersRequest.put("method", "GET");
+        parametersRequest.put("uri", "/parameters?variable_1=Operators%20%3C%2C%20%3E%2C%20%3D%2C%20!%3D%3B%20%2B%2C" +
+                "%20-%2C%20*%2C%20%26%2C%20%40%2C%20%23%2C%20%24%2C%20%5B%2C%20%5D%3A%20%22is%20that%20all%22%3F" +
+                "&variable_2=stuff");
+
+        HashMap<String, byte[]> parametersResponse = new HashMap<String, byte[]>();
+        parametersResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
+        parametersResponse.put("header", "\r\n".getBytes());
+        parametersResponse.put("body", ("/parameters?variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: " +
+                "\"is that all\"?&variable_2 = stuff").getBytes());
+
+        assertArrayEquals(parametersResponse.get("status"), Handler.getResponse(parametersRequest).get("status"));
+        assertArrayEquals(parametersResponse.get("header"), Handler.getResponse(parametersRequest).get("header"));
+        assertArrayEquals(parametersResponse.get("body"), Handler.getResponse(parametersRequest).get("body"));
+    }
+
+    @Test
     public void getResponseDelivers200ForGetFormRequest() {
         HashMap<String, String> getFormRequest = new HashMap<String, String>();
         getFormRequest.put("method", "GET");
@@ -146,38 +181,20 @@ public class HandlerTest {
     }
 
     @Test
-    public void getResponseDelivers200ForMethodOptionsRequest() {
-        HashMap<String, String> methodOptionsRequest = new HashMap<String, String>();
-        methodOptionsRequest.put("method", "GET");
-        methodOptionsRequest.put("uri", "/method_options");
+    public void getResponseDelivers206ForPartialContentRequest() {
+        HashMap<String, String> partialContentRequest = new HashMap<String, String>();
+        partialContentRequest.put("method", "GET");
+        partialContentRequest.put("uri", "/partial_content.txt");
+        partialContentRequest.put("range", "0-4");
 
-        HashMap<String, byte[]> methodOptionsResponse = new HashMap<String, byte[]>();
-        methodOptionsResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
-        methodOptionsResponse.put("header", "Allow: GET,HEAD,POST,OPTIONS,PUT\r\n".getBytes());
-        methodOptionsResponse.put("body", "".getBytes());
+        HashMap<String, byte[]> partialContentResponse = new HashMap<String, byte[]>();
+        partialContentResponse.put("status", "HTTP/1.1 206 Partial Content\r\n".getBytes());
+        partialContentResponse.put("header", "\r\n".getBytes());
+        partialContentResponse.put("body", "This ".getBytes());
 
-        assertArrayEquals(methodOptionsResponse.get("status"), Handler.getResponse(methodOptionsRequest).get("status"));
-        assertArrayEquals(methodOptionsResponse.get("header"), Handler.getResponse(methodOptionsRequest).get("header"));
-        assertArrayEquals(methodOptionsResponse.get("body"), Handler.getResponse(methodOptionsRequest).get("body"));
-    }
-
-    @Test
-    public void getResponseDelivers200ForParametersRequest() {
-        HashMap<String, String> parametersRequest = new HashMap<String, String>();
-        parametersRequest.put("method", "GET");
-        parametersRequest.put("uri", "/parameters?variable_1=Operators%20%3C%2C%20%3E%2C%20%3D%2C%20!%3D%3B%20%2B%2C" +
-                "%20-%2C%20*%2C%20%26%2C%20%40%2C%20%23%2C%20%24%2C%20%5B%2C%20%5D%3A%20%22is%20that%20all%22%3F" +
-                "&variable_2=stuff");
-
-        HashMap<String, byte[]> parametersResponse = new HashMap<String, byte[]>();
-        parametersResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
-        parametersResponse.put("header", "\r\n".getBytes());
-        parametersResponse.put("body", ("/parameters?variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: " +
-                "\"is that all\"?&variable_2 = stuff").getBytes());
-
-        assertArrayEquals(parametersResponse.get("status"), Handler.getResponse(parametersRequest).get("status"));
-        assertArrayEquals(parametersResponse.get("header"), Handler.getResponse(parametersRequest).get("header"));
-        assertArrayEquals(parametersResponse.get("body"), Handler.getResponse(parametersRequest).get("body"));
+        assertArrayEquals(partialContentResponse.get("status"), Handler.getResponse(partialContentRequest).get("status"));
+        assertArrayEquals(partialContentResponse.get("header"), Handler.getResponse(partialContentRequest).get("header"));
+        assertArrayEquals(partialContentResponse.get("body"), Handler.getResponse(partialContentRequest).get("body"));
     }
 
     @Test

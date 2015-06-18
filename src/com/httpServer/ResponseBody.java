@@ -24,6 +24,10 @@ public class ResponseBody {
         return ParameterDecoder.decode(uri).getBytes();
     }
 
+    public static byte[] partialContent(String range) {
+        return PartialContentAssembler.assemble(range);
+    }
+
     public static byte[] authenticationRequired() {
         return "Authentication required".getBytes();
     }

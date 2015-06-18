@@ -15,6 +15,8 @@ public class StatusHandler {
     public void setStatus() {
         if (isOk()) {
             response.put("status", ResponseStatus.ok());
+        } else if (request.isGetPartialContent()) {
+            response.put("status", ResponseStatus.partialContent());
         } else if (request.isRedirect()) {
             response.put("status", ResponseStatus.redirect());
         } else if (request.isNotAllowed()) {

@@ -6,6 +6,10 @@ public class ResponseStatus {
         return "HTTP/1.1 200 OK\r\n".getBytes();
     }
 
+    public static byte[] partialContent() {
+        return "HTTP/1.1 206 Partial Content\r\n".getBytes();
+    }
+
     public static byte[] redirect() {
         return "HTTP/1.1 302 Found\r\n".getBytes();
     }
