@@ -88,6 +88,20 @@ public class StatusHandlerTest {
     }
 
     @Test
+    public void setsStatusForAuthorizedLogsRequest() {
+        HashMap<String, String> authorizedLogsRequest = new HashMap<String, String>();
+        authorizedLogsRequest.put("method", "GET");
+        authorizedLogsRequest.put("uri", "/logs");
+        authorizedLogsRequest.put("authorization", "true");
+
+        HashMap<String, byte[]> authorizedLogsResponse = new HashMap<String, byte[]>();
+
+        new StatusHandler(authorizedLogsRequest, authorizedLogsResponse).setStatus();
+
+        assertArrayEquals(ResponseStatus.ok(), authorizedLogsResponse.get("status"));
+    }
+
+    @Test
     public void setsStatusForPatchContentRequest() {
         HashMap<String, String> patchRequest = new HashMap<String, String>();
         patchRequest.put("method", "PATCH");

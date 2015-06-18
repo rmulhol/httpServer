@@ -45,8 +45,11 @@ public class RequestParser {
     }
 
     public boolean isUnauthorized() {
-        return getMethod().equals("GET") && getUri().equals("/logs") &&
-                !request.containsKey("authorization");
+        return getMethod().equals("GET") && getUri().equals("/logs") && !isAuthorized();
+    }
+
+    public boolean isAuthorizedLogsRequest() {
+        return getMethod().equals("GET") && getUri().equals("/logs") && isAuthorized();
     }
 
     public boolean isPatchRequest() {
@@ -82,5 +85,9 @@ public class RequestParser {
 
     public String getRange() {
         return request.get("range");
+    }
+
+    private boolean isAuthorized() {
+        return request.containsKey("authorization");
     }
 }

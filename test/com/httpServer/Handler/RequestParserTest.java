@@ -128,6 +128,25 @@ public class RequestParserTest {
     }
 
     @Test
+    public void isAuthorizedLogsRequestReturnsTrueForAuthorizedLogsRequest() {
+        HashMap<String, String> authorizedLogsRequest = new HashMap<String, String>();
+        authorizedLogsRequest.put("method", "GET");
+        authorizedLogsRequest.put("uri", "/logs");
+        authorizedLogsRequest.put("authorization", "true");
+
+        assertTrue(new RequestParser(authorizedLogsRequest).isAuthorizedLogsRequest());
+    }
+
+    @Test
+    public void isAuthorizedLogsRequestReturnsFalseForUnauthorizedLogsRequest() {
+        HashMap<String, String> unauthorizedLogsRequest = new HashMap<String, String>();
+        unauthorizedLogsRequest.put("method", "GET");
+        unauthorizedLogsRequest.put("uri", "/logs");
+
+        assertTrue(!new RequestParser(unauthorizedLogsRequest).isAuthorizedLogsRequest());
+    }
+
+    @Test
     public void isPatchRequestReturnsTrueForPatchPatchContentRequest() {
         HashMap<String, String> patchRequest = new HashMap<String, String>();
         patchRequest.put("method", "PATCH");

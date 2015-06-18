@@ -1,5 +1,6 @@
 package com.httpServer.Handler.SubHandlers;
 
+import com.httpServer.Handler.FileIO.LogsAssembler;
 import com.httpServer.Handler.RequestParser;
 import com.httpServer.Handler.ResponseContents.ResponseBody;
 
@@ -22,6 +23,8 @@ public class BodyHandler {
             response.put("body", ResponseBody.fileContents(request.getUri()));
         } else if (request.isUnauthorized()) {
             response.put("body", ResponseBody.authenticationRequired());
+        } else if (request.isAuthorizedLogsRequest()) {
+            response.put("body", LogsAssembler.readLogs());
         } else if (request.isParameters()) {
             response.put("body", ResponseBody.parameters(request.getUri()));
         } else if (request.isGetPartialContent()) {

@@ -21,6 +21,9 @@ public class RequestMapper {
             String[] rangeLineParts = rangeLine.split("=");
             requestMap.put("range", rangeLineParts[1]);
         }
+        if (request.contains("Authorization")) {
+            requestMap.put("authorization", "true");
+        }
         return requestMap;
     }
 

@@ -11,12 +11,29 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class Main {
 
+    private static final Logger serverLogger =
+            Logger.getLogger(RequestReader.class.getName());
+
+
+
     public static void main(String[] args) throws IOException {
+        try {
+            FileHandler requestLogHandler = new FileHandler(System.getProperty("user.dir") + "/log/logs.txt");
+            serverLogger.addHandler(requestLogHandler);
+        } catch (IOException e) {
+            serverLogger.log(Level.SEVERE, "Couldn't add handler to logger", e);
+        }
+
         ServerSocket serverSocket = new ServerSocket(5000);
-        System.out.println("Server starting... ");
+
+        serverLogger.log(Level.INFO, "Server starting... ");
+
         while (true) {
             Socket clientSocket = serverSocket.accept();
 
@@ -24,8 +41,7 @@ class Main {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
             String request = RequestReader.read(in);
-
-            System.out.println(request);
+            serverLogger.log(Level.INFO, request);
 
             HashMap<String, String> requestMap = RequestMapper.map(request);
             HashMap<String, byte[]> responseMap = com.httpServer.Handler.Handler.getResponse(requestMap);
