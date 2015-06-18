@@ -81,7 +81,7 @@ public class HandlerTest {
         HashMap<String, byte[]> getFormResponse = new HashMap<String, byte[]>();
         getFormResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
         getFormResponse.put("header", "\r\n".getBytes());
-        getFormResponse.put("body", "\"My\"=\"Data\"\n\n".getBytes());
+        getFormResponse.put("body", "\"My\"=\"Data\"\n".getBytes());
 
         assertArrayEquals(getFormResponse.get("status"), Handler.getResponse(getFormRequest).get("status"));
         assertArrayEquals(getFormResponse.get("header"), Handler.getResponse(getFormRequest).get("header"));
@@ -93,7 +93,7 @@ public class HandlerTest {
         HashMap<String, String> putFormRequest = new HashMap<String, String>();
         putFormRequest.put("method", "PUT");
         putFormRequest.put("uri", "/form");
-        putFormRequest.put("body", "\"My\"=\"Data\"\n");
+        putFormRequest.put("body", "\"My\"=\"Data\"");
 
         HashMap<String, byte[]> putFormResponse = new HashMap<String, byte[]>();
         putFormResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
@@ -110,7 +110,7 @@ public class HandlerTest {
         HashMap<String, String> postFormRequest = new HashMap<String, String>();
         postFormRequest.put("method", "POST");
         postFormRequest.put("uri", "/form");
-        postFormRequest.put("body", "\"My\"=\"Data\"\n");
+        postFormRequest.put("body", "\"My\"=\"Data\"");
 
         HashMap<String, byte[]> postFormResponse = new HashMap<String, byte[]>();
         postFormResponse.put("status", "HTTP/1.1 200 OK\r\n".getBytes());
@@ -137,8 +137,8 @@ public class HandlerTest {
         assertArrayEquals(deleteFormResponse.get("header"), Handler.getResponse(deleteFormRequest).get("header"));
         assertArrayEquals(deleteFormResponse.get("body"), Handler.getResponse(deleteFormRequest).get("body"));
 
-        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"");
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
     }
 
     @Test
@@ -148,11 +148,11 @@ public class HandlerTest {
         putFormRequest.put("uri", "/form");
         putFormRequest.put("body", "test data");
 
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
         Handler.getResponse(putFormRequest);
         assertArrayEquals("test data\n".getBytes(), MyFileReader.readFileContents("/form"));
-        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"");
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
     }
 
     @Test
@@ -162,11 +162,11 @@ public class HandlerTest {
         postFormRequest.put("uri", "/form");
         postFormRequest.put("body", "test data");
 
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
         Handler.getResponse(postFormRequest);
         assertArrayEquals("test data\n".getBytes(), MyFileReader.readFileContents("/form"));
-        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"");
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
     }
 
     @Test
@@ -175,11 +175,11 @@ public class HandlerTest {
         deleteFormRequest.put("method", "DELETE");
         deleteFormRequest.put("uri", "/form");
 
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
         Handler.getResponse(deleteFormRequest);
         assertArrayEquals("\n".getBytes(), MyFileReader.readFileContents("/form"));
-        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"");
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
     }
 
     @Test
@@ -187,7 +187,7 @@ public class HandlerTest {
         HashMap<String, String> patchRequest = new HashMap<String, String>();
         patchRequest.put("method", "PATCH");
         patchRequest.put("uri", "/patch-content.txt");
-        patchRequest.put("body", "default content\n");
+        patchRequest.put("body", "default content");
 
         HashMap<String, byte[]> patchResponse = new HashMap<String, byte[]>();
         patchResponse.put("status", "HTTP/1.1 204 No Content\r\n".getBytes());
@@ -206,11 +206,11 @@ public class HandlerTest {
         patchRequest.put("uri", "/patch-content.txt");
         patchRequest.put("body", "test content");
 
-        assertArrayEquals("default content\n\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
+        assertArrayEquals("default content\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
         Handler.getResponse(patchRequest);
         assertArrayEquals("test content\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
-        MyFileWriter.editFile("/public/patch-content.txt", "default content\n");
-        assertArrayEquals("default content\n\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
+        MyFileWriter.editFile("/public/patch-content.txt", "default content");
+        assertArrayEquals("default content\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
     }
 
     @Test

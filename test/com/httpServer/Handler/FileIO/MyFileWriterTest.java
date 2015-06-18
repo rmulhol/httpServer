@@ -35,18 +35,6 @@ public class MyFileWriterTest {
     }
 
     @Test
-    public void testAppendToFile() {
-        String testFilePath = System.getProperty("user.dir") + "/test/com/httpServer/test_data/test_data.txt";
-        assertEquals("This is a test\n", readFileContents(testFilePath));
-
-        MyFileWriter.appendToFile("/test/com/httpServer/test_data/test_data.txt", "This is more test data");
-        assertEquals("This is a test\nThis is more test data\n", readFileContents(testFilePath));
-
-        MyFileWriter.editFile("/test/com/httpServer/test_data/test_data.txt", "This is a test");
-        assertEquals("This is a test\n", readFileContents(testFilePath));
-    }
-
-    @Test
     public void testDeleteFileContents() {
         String testFilePath = System.getProperty("user.dir") + "/test/com/httpServer/test_data/test_data.txt";
         assertEquals("This is a test\n", readFileContents(testFilePath));

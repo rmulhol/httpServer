@@ -18,11 +18,11 @@ public class FileWritingHandlerTest {
         putFormRequest.put("uri", "/form");
         putFormRequest.put("body", "test content");
 
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
         new FileWritingHandler(putFormRequest).setFile();
         assertArrayEquals("test content\n".getBytes(), MyFileReader.readFileContents("/form"));
-        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"");
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
     }
 
     @Test
@@ -32,11 +32,11 @@ public class FileWritingHandlerTest {
         postFormRequest.put("uri", "/form");
         postFormRequest.put("body", "test content");
 
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
         new FileWritingHandler(postFormRequest).setFile();
         assertArrayEquals("test content\n".getBytes(), MyFileReader.readFileContents("/form"));
-        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"");
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
     }
 
     @Test
@@ -45,11 +45,11 @@ public class FileWritingHandlerTest {
         deleteFormRequest.put("method", "DELETE");
         deleteFormRequest.put("uri", "/form");
 
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
         new FileWritingHandler(deleteFormRequest).setFile();
         assertArrayEquals("\n".getBytes(), MyFileReader.readFileContents("/form"));
-        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
-        assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+        MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"");
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
     }
 
     @Test
@@ -59,11 +59,11 @@ public class FileWritingHandlerTest {
         patchRequest.put("uri", "/patch-content.txt");
         patchRequest.put("body", "test content");
 
-        assertArrayEquals("default content\n\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
+        assertArrayEquals("default content\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
         new FileWritingHandler(patchRequest).setFile();
         assertArrayEquals("test content\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
-        MyFileWriter.editFile("/public/patch-content.txt", "default content\n");
-        assertArrayEquals("default content\n\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
+        MyFileWriter.editFile("/public/patch-content.txt", "default content");
+        assertArrayEquals("default content\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
     }
 
 
