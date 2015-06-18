@@ -1,4 +1,4 @@
-package com.httpServer;
+package com.httpServer.Handler.ResponseContents;
 
 import java.util.*;
 

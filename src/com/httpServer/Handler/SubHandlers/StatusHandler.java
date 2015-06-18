@@ -1,13 +1,16 @@
-package com.httpServer;
+package com.httpServer.Handler.SubHandlers;
+
+import com.httpServer.Handler.RequestParser;
+import com.httpServer.Handler.ResponseContents.ResponseStatus;
 
 import java.util.HashMap;
 
-class StatusHandler {
+public class StatusHandler {
 
     private final RequestParser request;
     private final HashMap<String, byte[]> response;
 
-    StatusHandler(HashMap<String, String> request, HashMap<String, byte[]> response) {
+    public StatusHandler(HashMap<String, String> request, HashMap<String, byte[]> response) {
         this.request = new RequestParser(request);
         this.response = response;
     }

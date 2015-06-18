@@ -1,10 +1,10 @@
-package com.httpServer;
+package com.httpServer.Handler.FileIO;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-class PartialContentAssembler {
+public class PartialContentAssembler {
 
     public static byte[] assemble(String range) {
         int[] rangeArray = parseRange(range);

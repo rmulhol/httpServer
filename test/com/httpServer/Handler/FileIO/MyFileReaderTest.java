@@ -1,11 +1,11 @@
-package com.httpServer;
+package com.httpServer.Handler.FileIO;
 
 import org.junit.Test;
 
 import java.io.File;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MyFileReaderTest {
 

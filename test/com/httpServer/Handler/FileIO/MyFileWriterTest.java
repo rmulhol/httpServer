@@ -1,4 +1,4 @@
-package com.httpServer;
+package com.httpServer.Handler.FileIO;
 
 import org.junit.Test;
 
@@ -7,15 +7,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MyFileWriterTest {
 
     private String readFileContents(String filePath) {
-        byte[] fileContents = null;
         try {
             Path path = Paths.get(filePath);
-            fileContents = Files.readAllBytes(path);
+            byte[] fileContents = Files.readAllBytes(path);
             return new String(fileContents);
         } catch (IOException e) {
             e.printStackTrace();

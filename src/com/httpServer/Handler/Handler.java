@@ -1,4 +1,9 @@
-package com.httpServer;
+package com.httpServer.Handler;
+
+import com.httpServer.Handler.SubHandlers.BodyHandler;
+import com.httpServer.Handler.SubHandlers.FileWritingHandler;
+import com.httpServer.Handler.SubHandlers.HeaderHandler;
+import com.httpServer.Handler.SubHandlers.StatusHandler;
 
 import java.util.HashMap;
 

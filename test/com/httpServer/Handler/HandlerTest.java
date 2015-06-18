@@ -1,5 +1,7 @@
-package com.httpServer;
+package com.httpServer.Handler;
 
+import com.httpServer.Handler.FileIO.MyFileReader;
+import com.httpServer.Handler.FileIO.MyFileWriter;
 import org.junit.Test;
 
 import java.util.HashMap;

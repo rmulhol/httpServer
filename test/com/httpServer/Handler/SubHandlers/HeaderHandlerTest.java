@@ -1,10 +1,11 @@
-package com.httpServer;
+package com.httpServer.Handler.SubHandlers;
 
+import com.httpServer.Handler.ResponseContents.ResponseHeader;
 import org.junit.Test;
 
 import java.util.HashMap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 public class HeaderHandlerTest {
 
