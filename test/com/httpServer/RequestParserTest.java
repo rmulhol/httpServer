@@ -128,6 +128,24 @@ public class RequestParserTest {
     }
 
     @Test
+    public void isPatchRequestReturnsTrueForPatchPatchContentRequest() {
+        HashMap<String, String> patchRequest = new HashMap<String, String>();
+        patchRequest.put("method", "PATCH");
+        patchRequest.put("uri", "/patch-content.txt");
+
+        assertTrue(new RequestParser(patchRequest).isPatchRequest());
+    }
+
+    @Test
+    public void isPatchRequestReturnsFalseIfNotPatchPatchContentRequest() {
+        HashMap<String, String> nonPatchRequest = new HashMap<String, String>();
+        nonPatchRequest.put("method", "PATCH");
+        nonPatchRequest.put("uri", "/file1");
+
+        assertTrue(!new RequestParser(nonPatchRequest).isPatchRequest());
+    }
+
+    @Test
     public void isNotAllowedReturnsTrueForNotAllowedRequest() {
         HashMap<String, String> notAllowedRequest = new HashMap<String, String>();
         notAllowedRequest.put("method", "PUT");

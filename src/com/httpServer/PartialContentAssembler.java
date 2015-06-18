@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-public class PartialContentAssembler {
+class PartialContentAssembler {
 
     public static byte[] assemble(String range) {
         int[] rangeArray = parseRange(range);

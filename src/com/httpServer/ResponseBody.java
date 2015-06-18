@@ -2,7 +2,7 @@ package com.httpServer;
 
 import java.io.File;
 
-public class ResponseBody {
+class ResponseBody {
 
     public static byte[] publicDirectoryContents() {
         String fileLinks = "";

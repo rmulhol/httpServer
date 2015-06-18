@@ -2,7 +2,7 @@ package com.httpServer;
 
 import java.util.HashMap;
 
-public class BodyHandler {
+class BodyHandler {
 
     private final RequestParser request;
     private final HashMap<String, byte[]> response;

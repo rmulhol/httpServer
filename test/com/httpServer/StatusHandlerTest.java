@@ -87,6 +87,19 @@ public class StatusHandlerTest {
     }
 
     @Test
+    public void setsStatusForPatchContentRequest() {
+        HashMap<String, String> patchRequest = new HashMap<String, String>();
+        patchRequest.put("method", "PATCH");
+        patchRequest.put("uri", "/patch-content.txt");
+
+        HashMap<String, byte[]> patchResponse = new HashMap<String, byte[]>();
+
+        new StatusHandler(patchRequest, patchResponse).setStatus();
+
+        assertArrayEquals(ResponseStatus.patchContent(), patchResponse.get("status"));
+    }
+
+    @Test
     public void setsStatusForPartialContentRequest() {
         HashMap<String, String> partialContentRequest = new HashMap<String, String>();
         partialContentRequest.put("method", "GET");

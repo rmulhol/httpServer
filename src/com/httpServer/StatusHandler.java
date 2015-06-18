@@ -2,7 +2,7 @@ package com.httpServer;
 
 import java.util.HashMap;
 
-public class StatusHandler {
+class StatusHandler {
 
     private final RequestParser request;
     private final HashMap<String, byte[]> response;
@@ -15,6 +15,8 @@ public class StatusHandler {
     public void setStatus() {
         if (isOk()) {
             response.put("status", ResponseStatus.ok());
+        } else if (request.isPatchRequest()) {
+            response.put("status", ResponseStatus.patchContent());
         } else if (request.isGetPartialContent()) {
             response.put("status", ResponseStatus.partialContent());
         } else if (request.isRedirect()) {

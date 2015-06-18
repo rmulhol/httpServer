@@ -1,9 +1,13 @@
 package com.httpServer;
 
-public class ResponseStatus {
+class ResponseStatus {
 
     public static byte[] ok() {
         return "HTTP/1.1 200 OK\r\n".getBytes();
+    }
+
+    public static byte[] patchContent() {
+        return "HTTP/1.1 204 No Content\r\n".getBytes();
     }
 
     public static byte[] partialContent() {

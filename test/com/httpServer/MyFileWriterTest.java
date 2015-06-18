@@ -16,10 +16,11 @@ public class MyFileWriterTest {
         try {
             Path path = Paths.get(filePath);
             fileContents = Files.readAllBytes(path);
+            return new String(fileContents);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new String(fileContents);
+        return "Error: Couldn't read file content";
     }
 
     @Test

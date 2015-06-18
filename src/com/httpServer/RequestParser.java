@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class RequestParser {
+class RequestParser {
 
     private final HashMap<String, String> request;
     final String uri;
@@ -49,6 +49,10 @@ public class RequestParser {
     public boolean isUnauthorized() {
         return request.get("method").equals("GET") && request.get("uri").equals("/logs") &&
                 !request.containsKey("authorization");
+    }
+
+    public boolean isPatchRequest() {
+        return request.get("method").equals("PATCH") && request.get("uri").equals("/patch-content.txt");
     }
 
     public boolean isNotAllowed() {

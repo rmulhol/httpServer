@@ -2,7 +2,7 @@ package com.httpServer;
 
 import java.util.HashMap;
 
-public class Handler {
+class Handler {
 
     public static HashMap<String, byte[]> getResponse(HashMap<String, String> request) {
         HashMap<String, byte[]> response = new HashMap<String, byte[]>();
@@ -10,7 +10,7 @@ public class Handler {
         new StatusHandler(request, response).setStatus();
         new HeaderHandler(request, response).setHeader();
         new BodyHandler(request, response).setBody();
-        new FileWritingHandler(request, response).setFile();
+        new FileWritingHandler(request).setFile();
 
         return response;
     }

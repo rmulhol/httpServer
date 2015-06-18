@@ -16,10 +16,8 @@ public class FileWritingHandlerTest {
         putFormRequest.put("uri", "/form");
         putFormRequest.put("body", "test content");
 
-        HashMap<String, byte[]> putFormResponse = new HashMap<String, byte[]>();
-
         assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
-        new FileWritingHandler(putFormRequest, putFormResponse).setFile();
+        new FileWritingHandler(putFormRequest).setFile();
         assertArrayEquals("test content\n".getBytes(), MyFileReader.readFileContents("/form"));
         MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
         assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
@@ -32,10 +30,8 @@ public class FileWritingHandlerTest {
         postFormRequest.put("uri", "/form");
         postFormRequest.put("body", "test content");
 
-        HashMap<String, byte[]> postFormResponse = new HashMap<String, byte[]>();
-
         assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
-        new FileWritingHandler(postFormRequest, postFormResponse).setFile();
+        new FileWritingHandler(postFormRequest).setFile();
         assertArrayEquals("test content\n".getBytes(), MyFileReader.readFileContents("/form"));
         MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
         assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
@@ -47,13 +43,25 @@ public class FileWritingHandlerTest {
         deleteFormRequest.put("method", "DELETE");
         deleteFormRequest.put("uri", "/form");
 
-        HashMap<String, byte[]> deleteFormResponse = new HashMap<String, byte[]>();
-
         assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
-        new FileWritingHandler(deleteFormRequest, deleteFormResponse).setFile();
+        new FileWritingHandler(deleteFormRequest).setFile();
         assertArrayEquals("\n".getBytes(), MyFileReader.readFileContents("/form"));
         MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"\n");
         assertArrayEquals("\"My\"=\"Data\"\n\n".getBytes(), MyFileReader.readFileContents("/form"));
+    }
+
+    @Test
+    public void setFilePatchesPatchContentIfPatchRequest() {
+        HashMap<String, String> patchRequest = new HashMap<String, String>();
+        patchRequest.put("method", "PATCH");
+        patchRequest.put("uri", "/patch-content.txt");
+        patchRequest.put("body", "test content");
+
+        assertArrayEquals("default content\n\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
+        new FileWritingHandler(patchRequest).setFile();
+        assertArrayEquals("test content\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
+        MyFileWriter.editFile("/public/patch-content.txt", "default content\n");
+        assertArrayEquals("default content\n\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
     }
 
 
@@ -64,10 +72,8 @@ public class FileWritingHandlerTest {
         putFile1Request.put("uri", "/file1");
         putFile1Request.put("body", "Illegal attempt");
 
-        HashMap<String, byte[]> putFile1Response = new HashMap<String, byte[]>();
-
         assertArrayEquals("file1 contents".getBytes(), MyFileReader.readFileContents("/file1"));
-        new FileWritingHandler(putFile1Request, putFile1Response).setFile();
+        new FileWritingHandler(putFile1Request).setFile();
         assertArrayEquals("file1 contents".getBytes(), MyFileReader.readFileContents("/file1"));
     }
 

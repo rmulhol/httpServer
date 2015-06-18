@@ -1,6 +1,6 @@
 package com.httpServer;
 
-public class ResponseHeader {
+class ResponseHeader {
 
     public static byte[] location() {
         return "Location: http://localhost:5000/\r\n".getBytes();

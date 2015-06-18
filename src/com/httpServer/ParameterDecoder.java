@@ -2,7 +2,7 @@ package com.httpServer;
 
 import java.util.*;
 
-public class ParameterDecoder {
+class ParameterDecoder {
 
     public static String decode(String parameters) {
         String out = parameters.replace("=", " = ");

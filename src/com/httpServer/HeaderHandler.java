@@ -2,7 +2,7 @@ package com.httpServer;
 
 import java.util.HashMap;
 
-public class HeaderHandler {
+class HeaderHandler {
 
     private final RequestParser request;
     private final HashMap<String, byte[]> response;

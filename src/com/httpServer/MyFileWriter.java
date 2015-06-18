@@ -2,7 +2,7 @@ package com.httpServer;
 
 import java.io.*;
 
-public class MyFileWriter {
+class MyFileWriter {
 
     public static void editFile(String filePath, String content) {
         try {

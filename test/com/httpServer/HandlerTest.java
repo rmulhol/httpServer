@@ -181,6 +181,37 @@ public class HandlerTest {
     }
 
     @Test
+    public void getResponseDelivers204ForPatchRequest() {
+        HashMap<String, String> patchRequest = new HashMap<String, String>();
+        patchRequest.put("method", "PATCH");
+        patchRequest.put("uri", "/patch-content.txt");
+        patchRequest.put("body", "default content\n");
+
+        HashMap<String, byte[]> patchResponse = new HashMap<String, byte[]>();
+        patchResponse.put("status", "HTTP/1.1 204 No Content\r\n".getBytes());
+        patchResponse.put("header", "\r\n".getBytes());
+        patchResponse.put("body", "".getBytes());
+
+        assertArrayEquals(patchResponse.get("status"), Handler.getResponse(patchRequest).get("status"));
+        assertArrayEquals(patchResponse.get("header"), Handler.getResponse(patchRequest).get("header"));
+        assertArrayEquals(patchResponse.get("body"), Handler.getResponse(patchRequest).get("body"));
+    }
+
+    @Test
+    public void getResponseModifiesPatchContentForPatchRequest() {
+        HashMap<String, String> patchRequest = new HashMap<String, String>();
+        patchRequest.put("method", "PATCH");
+        patchRequest.put("uri", "/patch-content.txt");
+        patchRequest.put("body", "test content");
+
+        assertArrayEquals("default content\n\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
+        Handler.getResponse(patchRequest);
+        assertArrayEquals("test content\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
+        MyFileWriter.editFile("/public/patch-content.txt", "default content\n");
+        assertArrayEquals("default content\n\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
+    }
+
+    @Test
     public void getResponseDelivers206ForPartialContentRequest() {
         HashMap<String, String> partialContentRequest = new HashMap<String, String>();
         partialContentRequest.put("method", "GET");

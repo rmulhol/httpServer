@@ -12,6 +12,11 @@ public class ResponseStatusTest {
     }
 
     @Test
+    public void patchContentReturns204() {
+        assertArrayEquals("HTTP/1.1 204 No Content\r\n".getBytes(), ResponseStatus.patchContent());
+    }
+
+    @Test
     public void partialContentReturns206() {
         assertArrayEquals("HTTP/1.1 206 Partial Content\r\n".getBytes(), ResponseStatus.partialContent());
     }
