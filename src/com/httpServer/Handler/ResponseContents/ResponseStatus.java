@@ -6,7 +6,7 @@ public class ResponseStatus {
         return "200 OK\r\n".getBytes();
     }
 
-    public static byte[] patchContent() {
+    public static byte[] noContent() {
         return "204 No Content\r\n".getBytes();
     }
 

@@ -12,8 +12,8 @@ public class ResponseStatusTest {
     }
 
     @Test
-    public void patchContentReturns204() {
-        assertArrayEquals("204 No Content\r\n".getBytes(), ResponseStatus.patchContent());
+    public void noContentReturns204() {
+        assertArrayEquals("204 No Content\r\n".getBytes(), ResponseStatus.noContent());
     }
 
     @Test

@@ -1,25 +1,23 @@
 package com.httpServer.Handler.SubHandlers;
 
 import com.httpServer.Handler.FileIO.MyFileWriter;
-import com.httpServer.Handler.RequestParser;
-
-import java.util.HashMap;
+import com.httpServer.Handler.Route.Route;
 
 public class FileWritingHandler {
 
-    private final RequestParser request;
+    private final Route requestRoute;
 
-    public FileWritingHandler(HashMap<String, String> request) {
-        this.request = new RequestParser(request);
+    public FileWritingHandler(Route requestRoute) {
+        this.requestRoute = requestRoute;
     }
 
     public void setFile() {
-        if (request.isEditForm()) {
-            MyFileWriter.editFile("/public/form", request.getBody());
-        } else if (request.isDeleteForm()) {
+        if (requestRoute.requiresFormEdit()) {
+            MyFileWriter.editFile("/public/form", requestRoute.request.get("body"));
+        } else if (requestRoute.requiresFormDelete()) {
             MyFileWriter.deleteFileContents("/public/form");
-        } else if (request.isPatchRequest()) {
-            MyFileWriter.editFile("/public/patch-content.txt", request.getBody());
+        } else if (requestRoute.requiresPatchContentPatch()) {
+            MyFileWriter.editFile("/public/patch-content.txt", requestRoute.request.get("body"));
         }
     }
 }

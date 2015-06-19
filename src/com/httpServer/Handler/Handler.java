@@ -1,5 +1,6 @@
 package com.httpServer.Handler;
 
+import com.httpServer.Handler.Route.Route;
 import com.httpServer.Handler.SubHandlers.BodyHandler;
 import com.httpServer.Handler.SubHandlers.FileWritingHandler;
 import com.httpServer.Handler.SubHandlers.HeaderHandler;
@@ -11,11 +12,12 @@ public class Handler {
 
     public static HashMap<String, byte[]> getResponse(HashMap<String, String> request) {
         HashMap<String, byte[]> response = new HashMap<String, byte[]>();
+        Route requestRoute = new Route(request);
 
-        new StatusHandler(request, response).setStatus();
-        new HeaderHandler(request, response).setHeader();
-        new BodyHandler(request, response).setBody();
-        new FileWritingHandler(request).setFile();
+        new StatusHandler(requestRoute, response).setStatus();
+        new HeaderHandler(requestRoute, response).setHeader();
+        new BodyHandler(requestRoute, response).setBody();
+        new FileWritingHandler(requestRoute).setFile();
 
         return response;
     }

@@ -1,42 +1,35 @@
 package com.httpServer.Handler.SubHandlers;
 
-import com.httpServer.Handler.RequestParser;
 import com.httpServer.Handler.ResponseContents.ResponseStatus;
+import com.httpServer.Handler.Route.Route;
 
 import java.util.HashMap;
 
 public class StatusHandler {
 
-    private final RequestParser request;
+    private final Route requestRoute;
     private final HashMap<String, byte[]> response;
 
-    public StatusHandler(HashMap<String, String> request, HashMap<String, byte[]> response) {
-        this.request = new RequestParser(request);
+    public StatusHandler(Route requestRoute, HashMap<String, byte[]> response) {
+        this.requestRoute = requestRoute;
         this.response = response;
     }
 
     public void setStatus() {
-        if (isOk()) {
+        if (requestRoute.isOkStatus()) {
             response.put("status", ResponseStatus.ok());
-        } else if (request.isPatchRequest()) {
-            response.put("status", ResponseStatus.patchContent());
-        } else if (request.isGetPartialContent()) {
+        } else if (requestRoute.isNoContentStatus()) {
+            response.put("status", ResponseStatus.noContent());
+        } else if (requestRoute.isPartialContentStatus()) {
             response.put("status", ResponseStatus.partialContent());
-        } else if (request.isRedirect()) {
+        } else if (requestRoute.isRedirectStatus()) {
             response.put("status", ResponseStatus.redirect());
-        } else if (request.isNotAllowed()) {
+        } else if (requestRoute.isNotAllowedStatus()) {
             response.put("status", ResponseStatus.notAllowed());
-        } else if (request.isUnauthorized()) {
+        } else if (requestRoute.isUnauthorizedStatus()) {
             response.put("status", ResponseStatus.unauthorized());
         } else {
             response.put("status", ResponseStatus.fourOhFour());
         }
-    }
-
-    private boolean isOk() {
-        return request.isRootRequest()  || request.isMethodOptions()    ||
-                request.isParameters()  || request.isGetDirectoryFile() ||
-                request.isEditForm()    || request.isDeleteForm()       ||
-                request.isAuthorizedLogsRequest();
     }
 }
