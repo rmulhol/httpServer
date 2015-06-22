@@ -1,7 +1,5 @@
 package com.httpServer;
 
-import com.httpServer.RequestAdapter.RequestReader;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,7 +12,7 @@ import java.util.logging.Logger;
 class Main {
 
     static final Logger serverLogger =
-            Logger.getLogger(RequestReader.class.getName());
+            Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) throws IOException {
         try {
