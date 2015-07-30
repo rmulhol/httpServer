@@ -5,13 +5,13 @@ import com.httpServer.Handler.SubHandlers.BodyHandler;
 import com.httpServer.Handler.SubHandlers.FileWritingHandler;
 import com.httpServer.Handler.SubHandlers.HeaderHandler;
 import com.httpServer.Handler.SubHandlers.StatusHandler;
-
-import java.util.HashMap;
+import com.httpServer.RequestAdapter.Request;
+import com.httpServer.ResponseAdapter.Response;
 
 public class Handler {
 
-    public static HashMap<String, byte[]> getResponse(HashMap<String, String> request) {
-        HashMap<String, byte[]> response = new HashMap<String, byte[]>();
+    public static Response getResponse(Request request) {
+        Response response = new Response();
         Route requestRoute = new Route(request);
 
         new StatusHandler(requestRoute, response).setStatus();

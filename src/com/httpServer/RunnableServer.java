@@ -1,12 +1,13 @@
 package com.httpServer;
 
-import com.httpServer.RequestAdapter.RequestMapper;
+import com.httpServer.RequestAdapter.Request;
+import com.httpServer.RequestAdapter.RequestBuilder;
 import com.httpServer.RequestAdapter.RequestReader;
+import com.httpServer.ResponseAdapter.Response;
 import com.httpServer.ResponseAdapter.ResponseJoiner;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,15 +29,15 @@ class RunnableServer implements Runnable {
             out = clientSocket.getOutputStream();
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            String request = RequestReader.read(in);
-            serverLogger.log(Level.INFO, request);
+            String rawRequest = RequestReader.read(in);
+            serverLogger.log(Level.INFO, rawRequest);
 
-            HashMap<String, String> requestMap = RequestMapper.map(request);
-            HashMap<String, byte[]> responseMap = com.httpServer.Handler.Handler.getResponse(requestMap);
+            Request request = RequestBuilder.buildRequest(rawRequest);
+            Response response = com.httpServer.Handler.Handler.getResponse(request);
 
-            byte[] response = ResponseJoiner.join(responseMap);
+            byte[] output = ResponseJoiner.join(response);
 
-            out.write(response);
+            out.write(output);
         } catch (IOException e) {
             serverLogger.log(Level.SEVERE, "Couldn't complete request/response cycle", e);
             e.printStackTrace();

@@ -13,11 +13,11 @@ public class FileWritingHandler {
 
     public void setFile() {
         if (requestRoute.requiresFormEdit()) {
-            MyFileWriter.editFile("/public/form", requestRoute.request.get("body"));
+            MyFileWriter.editFile("/public/form", requestRoute.request.getBody());
         } else if (requestRoute.requiresFormDelete()) {
             MyFileWriter.deleteFileContents("/public/form");
         } else if (requestRoute.requiresPatchContentPatch()) {
-            MyFileWriter.editFile("/public/patch-content.txt", requestRoute.request.get("body"));
+            MyFileWriter.editFile("/public/patch-content.txt", requestRoute.request.getBody());
         }
     }
 }

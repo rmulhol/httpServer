@@ -3,34 +3,33 @@ package com.httpServer.Handler.SubHandlers;
 import com.httpServer.Handler.FileIO.LogsAssembler;
 import com.httpServer.Handler.ResponseContents.ResponseBody;
 import com.httpServer.Handler.Route.Route;
-
-import java.util.HashMap;
+import com.httpServer.ResponseAdapter.Response;
 
 public class BodyHandler {
 
     private final Route requestRoute;
-    private final HashMap<String, byte[]> response;
+    private final Response response;
 
-    public BodyHandler(Route requestRoute, HashMap<String, byte[]> response) {
+    public BodyHandler(Route requestRoute, Response response) {
         this.requestRoute = requestRoute;
         this.response = response;
     }
 
     public void setBody() {
         if (requestRoute.requiresDirectoryContentsBody()) {
-            response.put("body", ResponseBody.publicDirectoryContents());
+            response.setBody(ResponseBody.publicDirectoryContents());
         } else if (requestRoute.requiresFileContentsBody()) {
-            response.put("body", ResponseBody.fileContents(requestRoute.request.get("uri")));
+            response.setBody(ResponseBody.fileContents(requestRoute.request.getUri()));
         } else if (requestRoute.requiresAuthenticationRequiredBody()) {
-            response.put("body", ResponseBody.authenticationRequired());
+            response.setBody(ResponseBody.authenticationRequired());
         } else if (requestRoute.requiresLogsBody()) {
-            response.put("body", LogsAssembler.readLogs());
+            response.setBody(LogsAssembler.readLogs());
         } else if (requestRoute.requiresParametersBody()) {
-            response.put("body", ResponseBody.parameters(requestRoute.request.get("uri")));
+            response.setBody(ResponseBody.parameters(requestRoute.request.getUri()));
         } else if (requestRoute.requiresPartialContentBody()) {
-            response.put("body", ResponseBody.partialContent(requestRoute.request.get("range")));
+            response.setBody(ResponseBody.partialContent(requestRoute.request.getRange()));
         } else {
-            response.put("body", ResponseBody.noBody());
+            response.setBody(ResponseBody.noBody());
         }
     }
 }

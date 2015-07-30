@@ -1,8 +1,7 @@
 package com.httpServer.Handler.Route;
 
+import com.httpServer.RequestAdapter.Request;
 import org.junit.Test;
-
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -10,9 +9,9 @@ public class RouteRequestMethodParserTest {
 
     @Test
     public void setsDeleteMethod() {
-        HashMap<String, String > deleteRequest = new HashMap<String, String>();
-        deleteRequest.put("method", "DELETE");
-        deleteRequest.put("uri", "/");
+        Request deleteRequest = new Request();
+        deleteRequest.setMethod("DELETE");
+        deleteRequest.setUri("/");
         Route deleteRoute = new Route(deleteRequest);
 
         assertTrue(deleteRoute.isDeleteRequest());
@@ -20,9 +19,9 @@ public class RouteRequestMethodParserTest {
 
     @Test
     public void setsGetMethod() {
-        HashMap<String, String > getRequest = new HashMap<String, String>();
-        getRequest.put("method", "GET");
-        getRequest.put("uri", "/");
+        Request getRequest = new Request();
+        getRequest.setMethod("GET");
+        getRequest.setUri("/");
         Route getRoute = new Route(getRequest);
 
         assertTrue(getRoute.isGetRequest());
@@ -30,9 +29,9 @@ public class RouteRequestMethodParserTest {
 
     @Test
     public void setsOptionsMethod() {
-        HashMap<String, String > optionsRequest = new HashMap<String, String>();
-        optionsRequest.put("method", "OPTIONS");
-        optionsRequest.put("uri", "/");
+        Request optionsRequest = new Request();
+        optionsRequest.setMethod("OPTIONS");
+        optionsRequest.setUri("/");
         Route optionsRoute = new Route(optionsRequest);
 
         assertTrue(optionsRoute.isOptionsRequest());
@@ -40,9 +39,9 @@ public class RouteRequestMethodParserTest {
 
     @Test
     public void setsPatchMethod() {
-        HashMap<String, String > patchRequest = new HashMap<String, String>();
-        patchRequest.put("method", "PATCH");
-        patchRequest.put("uri", "/");
+        Request patchRequest = new Request();
+        patchRequest.setMethod("PATCH");
+        patchRequest.setUri("/");
         Route patchRoute = new Route(patchRequest);
 
         assertTrue(patchRoute.isPatchRequest());
@@ -50,9 +49,9 @@ public class RouteRequestMethodParserTest {
 
     @Test
     public void setsPostMethod() {
-        HashMap<String, String > postRequest = new HashMap<String, String>();
-        postRequest.put("method", "POST");
-        postRequest.put("uri", "/");
+        Request postRequest = new Request();
+        postRequest.setMethod("POST");
+        postRequest.setUri("/");
         Route postRoute = new Route(postRequest);
 
         assertTrue(postRoute.isPostRequest());
@@ -60,9 +59,9 @@ public class RouteRequestMethodParserTest {
 
     @Test
     public void setsPutMethod() {
-        HashMap<String, String > putRequest = new HashMap<String, String>();
-        putRequest.put("method", "PUT");
-        putRequest.put("uri", "/");
+        Request putRequest = new Request();
+        putRequest.setMethod("PUT");
+        putRequest.setUri("/");
         Route putRoute = new Route(putRequest);
 
         assertTrue(putRoute.isPutRequest());

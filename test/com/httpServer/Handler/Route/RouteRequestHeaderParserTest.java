@@ -1,8 +1,7 @@
 package com.httpServer.Handler.Route;
 
+import com.httpServer.RequestAdapter.Request;
 import org.junit.Test;
-
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -10,10 +9,10 @@ public class RouteRequestHeaderParserTest {
 
     @Test
     public void setsAuthorizationHeader() {
-        HashMap<String, String> authorizedRequest = new HashMap<String, String>();
-        authorizedRequest.put("method", "GET");
-        authorizedRequest.put("uri", "/logs");
-        authorizedRequest.put("authorization", "true");
+        Request authorizedRequest = new Request();
+        authorizedRequest.setMethod("GET");
+        authorizedRequest.setUri("/logs");
+        authorizedRequest.setAuthorization();
         Route authorizedRoute = new Route(authorizedRequest);
 
         assertTrue(authorizedRoute.isAuthorized());
@@ -21,10 +20,10 @@ public class RouteRequestHeaderParserTest {
 
     @Test
     public void setsRangeHeader() {
-        HashMap<String, String> partialContentRequest = new HashMap<String, String>();
-        partialContentRequest.put("method", "GET");
-        partialContentRequest.put("uri", "/partial_content.txt");
-        partialContentRequest.put("range", "0-4");
+        Request partialContentRequest = new Request();
+        partialContentRequest.setMethod("GET");
+        partialContentRequest.setUri("/partial_content.txt");
+        partialContentRequest.setRange("0-4");
         Route partialContentRoute = new Route(partialContentRequest);
 
         assertTrue(partialContentRoute.hasRange());

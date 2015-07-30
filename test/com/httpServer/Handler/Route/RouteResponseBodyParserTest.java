@@ -1,8 +1,7 @@
 package com.httpServer.Handler.Route;
 
+import com.httpServer.RequestAdapter.Request;
 import org.junit.Test;
-
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -10,9 +9,9 @@ public class RouteResponseBodyParserTest {
 
     @Test
     public void setsDirectoryContentsRequired() {
-        HashMap<String, String> rootRequest = new HashMap<String, String>();
-        rootRequest.put("method", "GET");
-        rootRequest.put("uri", "/");
+        Request rootRequest = new Request();
+        rootRequest.setMethod("GET");
+        rootRequest.setUri("/");
         Route rootRoute = new Route(rootRequest);
 
         assertTrue(rootRoute.requiresDirectoryContentsBody());
@@ -20,9 +19,9 @@ public class RouteResponseBodyParserTest {
 
     @Test
     public void setsFileContentsRequired() {
-        HashMap<String, String> fileContentsRequest = new HashMap<String, String>();
-        fileContentsRequest.put("method", "GET");
-        fileContentsRequest.put("uri", "/file1");
+        Request fileContentsRequest = new Request();
+        fileContentsRequest.setMethod("GET");
+        fileContentsRequest.setUri("/file1");
         Route fileContentsRoute = new Route(fileContentsRequest);
 
         assertTrue(fileContentsRoute.requiresFileContentsBody());
@@ -30,9 +29,9 @@ public class RouteResponseBodyParserTest {
 
     @Test
     public void setsAuthenticationRequired() {
-        HashMap<String, String> unauthorizedRequest = new HashMap<String, String>();
-        unauthorizedRequest.put("method", "GET");
-        unauthorizedRequest.put("uri", "/logs");
+        Request unauthorizedRequest = new Request();
+        unauthorizedRequest.setMethod("GET");
+        unauthorizedRequest.setUri("/logs");
         Route unauthorizedRoute = new Route(unauthorizedRequest);
 
         assertTrue(unauthorizedRoute.requiresAuthenticationRequiredBody());
@@ -40,10 +39,10 @@ public class RouteResponseBodyParserTest {
 
     @Test
     public void setsLogsRequired() {
-        HashMap<String, String> logsRequest = new HashMap<String, String>();
-        logsRequest.put("method", "GET");
-        logsRequest.put("uri", "/logs");
-        logsRequest.put("authorization", "true");
+        Request logsRequest = new Request();
+        logsRequest.setMethod("GET");
+        logsRequest.setUri("/logs");
+        logsRequest.setAuthorization();
         Route logsRoute = new Route(logsRequest);
 
         assertTrue(logsRoute.requiresLogsBody());
@@ -51,9 +50,9 @@ public class RouteResponseBodyParserTest {
 
     @Test
     public void setsParametersRequired() {
-        HashMap<String, String> parametersRequest = new HashMap<String, String>();
-        parametersRequest.put("method", "GET");
-        parametersRequest.put("uri", "/parameters?query=true");
+        Request parametersRequest = new Request();
+        parametersRequest.setMethod("GET");
+        parametersRequest.setUri("/parameters?query=true");
         Route parametersRoute = new Route(parametersRequest);
 
         assertTrue(parametersRoute.requiresParametersBody());
@@ -61,10 +60,10 @@ public class RouteResponseBodyParserTest {
 
     @Test
     public void setsPartialContentRequired() {
-        HashMap<String, String> partialContentRequest = new HashMap<String, String>();
-        partialContentRequest.put("method", "GET");
-        partialContentRequest.put("uri", "/partial_content.txt");
-        partialContentRequest.put("range", "0-4");
+        Request partialContentRequest = new Request();
+        partialContentRequest.setMethod("GET");
+        partialContentRequest.setUri("/partial_content.txt");
+        partialContentRequest.setRange("0-4");
         Route partialContentRoute = new Route(partialContentRequest);
 
         assertTrue(partialContentRoute.requiresPartialContentBody());

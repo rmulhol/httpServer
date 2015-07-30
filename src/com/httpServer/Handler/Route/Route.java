@@ -1,10 +1,10 @@
 package com.httpServer.Handler.Route;
 
-import java.util.HashMap;
+import com.httpServer.RequestAdapter.Request;
 
 public class Route {
 
-    public final HashMap<String, String> request;
+    public final Request request;
 
     // request method
     private boolean isDeleteRequest;
@@ -54,7 +54,7 @@ public class Route {
     private boolean requiresFormDelete;
     private boolean requiresPatchContentPatch;
 
-    public Route(HashMap<String, String> request) {
+    public Route(Request request) {
         this.request = request;
 
         setAuthorized(isAuthorized());

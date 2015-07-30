@@ -7,7 +7,7 @@ class RouteRequestMethodParser {
 
     RouteRequestMethodParser(Route route) {
         this.route = route;
-        this.method = route.request.get("method");
+        this.method = route.request.getMethod();
     }
 
     public void parseRouteMethod() {

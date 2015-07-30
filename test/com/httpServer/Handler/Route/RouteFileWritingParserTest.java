@@ -1,8 +1,7 @@
 package com.httpServer.Handler.Route;
 
+import com.httpServer.RequestAdapter.Request;
 import org.junit.Test;
-
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -10,9 +9,9 @@ public class RouteFileWritingParserTest {
 
     @Test
     public void setsFormEditRequired() {
-        HashMap<String, String> formEditRequest = new HashMap<String, String>();
-        formEditRequest.put("method", "PUT");
-        formEditRequest.put("uri", "/form");
+        Request formEditRequest = new Request();
+        formEditRequest.setMethod("PUT");
+        formEditRequest.setUri("/form");
         Route formEditRoute = new Route(formEditRequest);
 
         assertTrue(formEditRoute.requiresFormEdit());
@@ -20,9 +19,9 @@ public class RouteFileWritingParserTest {
 
     @Test
     public void setsFormDeleteRequired() {
-        HashMap<String, String> formDeleteRequest = new HashMap<String, String>();
-        formDeleteRequest.put("method", "DELETE");
-        formDeleteRequest.put("uri", "/form");
+        Request formDeleteRequest = new Request();
+        formDeleteRequest.setMethod("DELETE");
+        formDeleteRequest.setUri("/form");
         Route formDeleteRoute = new Route(formDeleteRequest);
 
         assertTrue(formDeleteRoute.requiresFormDelete());
@@ -30,9 +29,9 @@ public class RouteFileWritingParserTest {
 
     @Test
     public void setsPatchContentRequired() {
-        HashMap<String, String> patchContentRequest = new HashMap<String, String>();
-        patchContentRequest.put("method", "PATCH");
-        patchContentRequest.put("uri", "/patch-content.txt");
+        Request patchContentRequest = new Request();
+        patchContentRequest.setMethod("PATCH");
+        patchContentRequest.setUri("/patch-content.txt");
         Route patchContentRoute = new Route(patchContentRequest);
 
         assertTrue(patchContentRoute.requiresPatchContentPatch());

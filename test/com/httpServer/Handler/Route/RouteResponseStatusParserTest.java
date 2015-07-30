@@ -1,8 +1,7 @@
 package com.httpServer.Handler.Route;
 
+import com.httpServer.RequestAdapter.Request;
 import org.junit.Test;
-
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -10,9 +9,9 @@ public class RouteResponseStatusParserTest {
 
     @Test
     public void setsOkStatus() {
-        HashMap<String, String> okRequest = new HashMap<String, String>();
-        okRequest.put("method", "GET");
-        okRequest.put("uri", "/");
+        Request okRequest = new Request();
+        okRequest.setMethod("GET");
+        okRequest.setUri("/");
         Route okRoute = new Route(okRequest);
 
         assertTrue(okRoute.isOkStatus());
@@ -20,9 +19,9 @@ public class RouteResponseStatusParserTest {
 
     @Test
     public void setsNotAllowedStatus() {
-        HashMap<String, String> notAllowedRequest = new HashMap<String, String>();
-        notAllowedRequest.put("method", "PUT");
-        notAllowedRequest.put("uri", "/file1");
+        Request notAllowedRequest = new Request();
+        notAllowedRequest.setMethod("PUT");
+        notAllowedRequest.setUri("/file1");
         Route notAllowedRoute = new Route(notAllowedRequest);
 
         assertTrue(notAllowedRoute.isNotAllowedStatus());
@@ -30,10 +29,10 @@ public class RouteResponseStatusParserTest {
 
     @Test
     public void setsPartialContentStatus() {
-        HashMap<String, String> partialContentRequest = new HashMap<String, String>();
-        partialContentRequest.put("method", "GET");
-        partialContentRequest.put("uri", "/partial_content.txt");
-        partialContentRequest.put("range", "0-4");
+        Request partialContentRequest = new Request();
+        partialContentRequest.setMethod("GET");
+        partialContentRequest.setUri("/partial_content.txt");
+        partialContentRequest.setRange("0-4");
         Route partialContentRoute = new Route(partialContentRequest);
 
         assertTrue(partialContentRoute.isPartialContentStatus());
@@ -41,9 +40,9 @@ public class RouteResponseStatusParserTest {
 
     @Test
     public void setsNoContentStatus() {
-        HashMap<String, String> patchContentRequest = new HashMap<String, String>();
-        patchContentRequest.put("method", "PATCH");
-        patchContentRequest.put("uri", "/patch-content.txt");
+        Request patchContentRequest = new Request();
+        patchContentRequest.setMethod("PATCH");
+        patchContentRequest.setUri("/patch-content.txt");
         Route patchContentRoute = new Route(patchContentRequest);
 
         assertTrue(patchContentRoute.isNoContentStatus());
@@ -51,9 +50,9 @@ public class RouteResponseStatusParserTest {
 
     @Test
     public void setsUnauthorizedStatus() {
-        HashMap<String, String> unauthorizedRequest = new HashMap<String, String>();
-        unauthorizedRequest.put("method", "GET");
-        unauthorizedRequest.put("uri", "/logs");
+        Request unauthorizedRequest = new Request();
+        unauthorizedRequest.setMethod("GET");
+        unauthorizedRequest.setUri("/logs");
         Route unauthorizedRoute = new Route(unauthorizedRequest);
 
         assertTrue(unauthorizedRoute.isUnauthorizedStatus());
@@ -61,9 +60,9 @@ public class RouteResponseStatusParserTest {
 
     @Test
     public void setsRedirectStatus() {
-        HashMap<String, String> redirectRequest = new HashMap<String, String>();
-        redirectRequest.put("method", "GET");
-        redirectRequest.put("uri", "/redirect");
+        Request redirectRequest = new Request();
+        redirectRequest.setMethod("GET");
+        redirectRequest.setUri("/redirect");
         Route redirectRoute = new Route(redirectRequest);
 
         assertTrue(redirectRoute.isRedirectStatus());

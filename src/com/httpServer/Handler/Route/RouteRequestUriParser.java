@@ -12,7 +12,7 @@ class RouteRequestUriParser {
 
     RouteRequestUriParser(Route route) {
         this.route = route;
-        this.uri = route.request.get("uri");
+        this.uri = route.request.getUri();
     }
 
     public void parseRouteUri() {

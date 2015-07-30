@@ -2,9 +2,9 @@ package com.httpServer.Handler.SubHandlers;
 
 import com.httpServer.Handler.ResponseContents.ResponseStatus;
 import com.httpServer.Handler.Route.Route;
+import com.httpServer.RequestAdapter.Request;
+import com.httpServer.ResponseAdapter.Response;
 import org.junit.Test;
-
-import java.util.HashMap;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -12,187 +12,187 @@ public class StatusHandlerTest {
 
     @Test
     public void setsStatusForRootRequest() {
-        HashMap<String, String> rootRequest = new HashMap<String, String>();
-        rootRequest.put("method", "GET");
-        rootRequest.put("uri", "/");
+        Request rootRequest = new Request();
+        rootRequest.setMethod("GET");
+        rootRequest.setUri("/");
         Route rootRoute = new Route(rootRequest);
 
-        HashMap<String, byte[]> rootResponse = new HashMap<String, byte[]>();
+        Response rootResponse = new Response();
 
         new StatusHandler(rootRoute, rootResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.ok(), rootResponse.get("status"));
+        assertArrayEquals(ResponseStatus.ok(), rootResponse.getStatus());
     }
 
     @Test
     public void setsStatusForMethodOptionsRequest() {
-        HashMap<String, String> methodOptionsRequest = new HashMap<String, String>();
-        methodOptionsRequest.put("method", "OPTIONS");
-        methodOptionsRequest.put("uri", "/method_options");
+        Request methodOptionsRequest = new Request();
+        methodOptionsRequest.setMethod("OPTIONS");
+        methodOptionsRequest.setUri("/method_options");
         Route methodOptionsRoute = new Route(methodOptionsRequest);
 
-        HashMap<String, byte[]> methodOptionsResponse = new HashMap<String, byte[]>();
+        Response methodOptionsResponse = new Response();
 
         new StatusHandler(methodOptionsRoute, methodOptionsResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.ok(), methodOptionsResponse.get("status"));
+        assertArrayEquals(ResponseStatus.ok(), methodOptionsResponse.getStatus());
     }
 
     @Test
     public void setsStatusForParametersRequest() {
-        HashMap<String, String> parametersRequest = new HashMap<String, String>();
-        parametersRequest.put("method", "GET");
-        parametersRequest.put("uri", "/parameters?query=this");
+        Request parametersRequest = new Request();
+        parametersRequest.setMethod("GET");
+        parametersRequest.setUri("/parameters?query=this");
         Route parametersRoute = new Route(parametersRequest);
 
-        HashMap<String, byte[]> parametersResponse = new HashMap<String, byte[]>();
+        Response parametersResponse = new Response();
 
         new StatusHandler(parametersRoute, parametersResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.ok(), parametersResponse.get("status"));
+        assertArrayEquals(ResponseStatus.ok(), parametersResponse.getStatus());
     }
 
     @Test
     public void setsStatusForPutFormRequest() {
-        HashMap<String, String> putFormRequest = new HashMap<String, String>();
-        putFormRequest.put("method", "PUT");
-        putFormRequest.put("uri", "/form");
+        Request putFormRequest = new Request();
+        putFormRequest.setMethod("PUT");
+        putFormRequest.setUri("/form");
         Route putFormRoute = new Route(putFormRequest);
 
-        HashMap<String, byte[]> putFormResponse = new HashMap<String, byte[]>();
+        Response putFormResponse = new Response();
 
         new StatusHandler(putFormRoute, putFormResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.ok(), putFormResponse.get("status"));
+        assertArrayEquals(ResponseStatus.ok(), putFormResponse.getStatus());
     }
 
     @Test
     public void setsStatusForPostFormRequest() {
-        HashMap<String, String> postFormRequest = new HashMap<String, String>();
-        postFormRequest.put("method", "POST");
-        postFormRequest.put("uri", "/form");
+        Request postFormRequest = new Request();
+        postFormRequest.setMethod("POST");
+        postFormRequest.setUri("/form");
         Route postFormRoute = new Route(postFormRequest);
 
-        HashMap<String, byte[]> postFormResponse = new HashMap<String, byte[]>();
+        Response postFormResponse = new Response();
 
         new StatusHandler(postFormRoute, postFormResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.ok(), postFormResponse.get("status"));
+        assertArrayEquals(ResponseStatus.ok(), postFormResponse.getStatus());
     }
 
     @Test
     public void setsStatusForDeleteFormRequest() {
-        HashMap<String, String> deleteFormRequest = new HashMap<String, String>();
-        deleteFormRequest.put("method", "DELETE");
-        deleteFormRequest.put("uri", "/form");
+        Request deleteFormRequest = new Request();
+        deleteFormRequest.setMethod("DELETE");
+        deleteFormRequest.setUri("/form");
         Route deleteFormRoute = new Route(deleteFormRequest);
 
-        HashMap<String, byte[]> deleteFormResponse = new HashMap<String, byte[]>();
+        Response deleteFormResponse = new Response();
 
         new StatusHandler(deleteFormRoute, deleteFormResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.ok(), deleteFormResponse.get("status"));
+        assertArrayEquals(ResponseStatus.ok(), deleteFormResponse.getStatus());
     }
 
     @Test
     public void setsStatusForAuthorizedLogsRequest() {
-        HashMap<String, String> authorizedLogsRequest = new HashMap<String, String>();
-        authorizedLogsRequest.put("method", "GET");
-        authorizedLogsRequest.put("uri", "/logs");
-        authorizedLogsRequest.put("authorization", "true");
+        Request authorizedLogsRequest = new Request();
+        authorizedLogsRequest.setMethod("GET");
+        authorizedLogsRequest.setUri("/logs");
+        authorizedLogsRequest.setAuthorization();
         Route authorizedLogsRoute = new Route(authorizedLogsRequest);
 
-        HashMap<String, byte[]> authorizedLogsResponse = new HashMap<String, byte[]>();
+        Response authorizedLogsResponse = new Response();
 
         new StatusHandler(authorizedLogsRoute, authorizedLogsResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.ok(), authorizedLogsResponse.get("status"));
+        assertArrayEquals(ResponseStatus.ok(), authorizedLogsResponse.getStatus());
     }
 
     @Test
     public void setsStatusForPatchContentRequest() {
-        HashMap<String, String> patchRequest = new HashMap<String, String>();
-        patchRequest.put("method", "PATCH");
-        patchRequest.put("uri", "/patch-content.txt");
+        Request patchRequest = new Request();
+        patchRequest.setMethod("PATCH");
+        patchRequest.setUri("/patch-content.txt");
         Route patchRequestRoute = new Route(patchRequest);
 
-        HashMap<String, byte[]> patchResponse = new HashMap<String, byte[]>();
+        Response patchResponse = new Response();
 
         new StatusHandler(patchRequestRoute, patchResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.noContent(), patchResponse.get("status"));
+        assertArrayEquals(ResponseStatus.noContent(), patchResponse.getStatus());
     }
 
     @Test
     public void setsStatusForPartialContentRequest() {
-        HashMap<String, String> partialContentRequest = new HashMap<String, String>();
-        partialContentRequest.put("method", "GET");
-        partialContentRequest.put("uri", "/partial_content.txt");
-        partialContentRequest.put("range", "0-4");
+        Request partialContentRequest = new Request();
+        partialContentRequest.setMethod("GET");
+        partialContentRequest.setUri("/partial_content.txt");
+        partialContentRequest.setRange("0-4");
         Route partialContentRoute = new Route(partialContentRequest);
 
-        HashMap<String, byte[]> partialContentResponse = new HashMap<String, byte[]>();
+        Response partialContentResponse = new Response();
 
         new StatusHandler(partialContentRoute, partialContentResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.partialContent(), partialContentResponse.get("status"));
+        assertArrayEquals(ResponseStatus.partialContent(), partialContentResponse.getStatus());
     }
 
     @Test
     public void setsStatusForRedirectRequest() {
-        HashMap<String, String> redirectRequest = new HashMap<String, String>();
-        redirectRequest.put("method", "GET");
-        redirectRequest.put("uri", "/redirect");
+        Request redirectRequest = new Request();
+        redirectRequest.setMethod("GET");
+        redirectRequest.setUri("/redirect");
         Route redirectRoute = new Route(redirectRequest);
 
-        HashMap<String, byte[]> redirectResponse = new HashMap<String, byte[]>();
+        Response redirectResponse = new Response();
 
         new StatusHandler(redirectRoute, redirectResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.redirect(), redirectResponse.get("status"));
+        assertArrayEquals(ResponseStatus.redirect(), redirectResponse.getStatus());
     }
 
 
     @Test
     public void setsHeaderForUnauthorizedLogsRequest() {
-        HashMap<String, String> unauthorizedLogsRequest = new HashMap<String, String>();
-        unauthorizedLogsRequest.put("method", "GET");
-        unauthorizedLogsRequest.put("uri", "/logs");
+        Request unauthorizedLogsRequest = new Request();
+        unauthorizedLogsRequest.setMethod("GET");
+        unauthorizedLogsRequest.setUri("/logs");
         Route unauthorizedLogsRoute = new Route(unauthorizedLogsRequest);
 
-        HashMap<String, byte[]> unauthorizedResponse = new HashMap<String, byte[]>();
+        Response unauthorizedResponse = new Response();
 
         new StatusHandler(unauthorizedLogsRoute, unauthorizedResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.unauthorized(), unauthorizedResponse.get("status"));
+        assertArrayEquals(ResponseStatus.unauthorized(), unauthorizedResponse.getStatus());
     }
 
 
     @Test
     public void setsStatusForNotAllowedRequest() {
-        HashMap<String, String> notAllowedRequest = new HashMap<String, String>();
-        notAllowedRequest.put("method", "PUT");
-        notAllowedRequest.put("uri", "file1");
+        Request notAllowedRequest = new Request();
+        notAllowedRequest.setMethod("PUT");
+        notAllowedRequest.setUri("/file1");
         Route notAllowedRoute = new Route(notAllowedRequest);
 
-        HashMap<String, byte[]> notAllowedResponse = new HashMap<String, byte[]>();
+        Response notAllowedResponse = new Response();
 
         new StatusHandler(notAllowedRoute, notAllowedResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.notAllowed(), notAllowedResponse.get("status"));
+        assertArrayEquals(ResponseStatus.notAllowed(), notAllowedResponse.getStatus());
     }
 
     @Test
     public void setsStatusForUnrecognizedRequest() {
-        HashMap<String, String> unrecognizedRequest = new HashMap<String, String>();
-        unrecognizedRequest.put("method", "GET");
-        unrecognizedRequest.put("uri", "/foobar");
+        Request unrecognizedRequest = new Request();
+        unrecognizedRequest.setMethod("GET");
+        unrecognizedRequest.setUri("/foobar");
         Route unrecognizedRoute = new Route(unrecognizedRequest);
 
-        HashMap<String, byte[]> fourOfFourResponse = new HashMap<String, byte[]>();
+        Response fourOfFourResponse = new Response();
 
         new StatusHandler(unrecognizedRoute, fourOfFourResponse).setStatus();
 
-        assertArrayEquals(ResponseStatus.fourOhFour(), fourOfFourResponse.get("status"));
+        assertArrayEquals(ResponseStatus.fourOhFour(), fourOfFourResponse.getStatus());
     }
 }

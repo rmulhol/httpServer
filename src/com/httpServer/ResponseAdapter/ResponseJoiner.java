@@ -1,15 +1,13 @@
 package com.httpServer.ResponseAdapter;
 
-import java.util.HashMap;
-
 public class ResponseJoiner {
 
-    public static byte[] join(HashMap<String, byte[]> responseMap) {
+    public static byte[] join(Response response) {
         byte[] httpProtocol = "HTTP/1.1 ".getBytes();
 
-        byte[] status = responseMap.get("status");
-        byte[] header = responseMap.get("header");
-        byte[] body = responseMap.get("body");
+        byte[] status = response.getStatus();
+        byte[] header = response.getHeader();
+        byte[] body = response.getBody();
 
         int protocolLength = httpProtocol.length;
         int statusLength = status.length;
@@ -17,21 +15,21 @@ public class ResponseJoiner {
         int bodyLength = body.length;
 
         int responseLength = protocolLength + statusLength + headerLength + bodyLength;
-        byte[] response = new byte[responseLength];
+        byte[] output = new byte[responseLength];
 
         for (int i = 0; i < responseLength; i++) {
             if (i < protocolLength) {
-                response[i] = httpProtocol[i];
+                output[i] = httpProtocol[i];
             } else if (i < protocolLength + statusLength) {
-                response[i] = status[i - protocolLength];
+                output[i] = status[i - protocolLength];
             } else if (i < protocolLength + statusLength + headerLength) {
-                response[i] = header[i - statusLength - protocolLength];
+                output[i] = header[i - statusLength - protocolLength];
             } else {
-                response[i] = body[i - headerLength - statusLength - protocolLength];
+                output[i] = body[i - headerLength - statusLength - protocolLength];
             }
         }
 
-        return response;
+        return output;
     }
 
 

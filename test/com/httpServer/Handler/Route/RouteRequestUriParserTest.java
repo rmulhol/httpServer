@@ -1,8 +1,7 @@
 package com.httpServer.Handler.Route;
 
+import com.httpServer.RequestAdapter.Request;
 import org.junit.Test;
-
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -10,9 +9,9 @@ public class RouteRequestUriParserTest {
 
     @Test
     public void setsAvailableResourceUri() {
-        HashMap<String, String> availableResourceRequest = new HashMap<String, String>();
-        availableResourceRequest.put("method", "GET");
-        availableResourceRequest.put("uri", "/file1");
+        Request availableResourceRequest = new Request();
+        availableResourceRequest.setMethod("GET");
+        availableResourceRequest.setUri("/file1");
         Route availableResourceRoute = new Route(availableResourceRequest);
 
         assertTrue(availableResourceRoute.isAvailableResourceRequest());
@@ -20,9 +19,9 @@ public class RouteRequestUriParserTest {
 
     @Test
     public void setsFormUri() {
-        HashMap<String, String> formRequest = new HashMap<String, String>();
-        formRequest.put("method", "GET");
-        formRequest.put("uri", "/form");
+        Request formRequest = new Request();
+        formRequest.setMethod("GET");
+        formRequest.setUri("/form");
         Route formRoute = new Route(formRequest);
 
         assertTrue(formRoute.isFormRequest());
@@ -30,9 +29,9 @@ public class RouteRequestUriParserTest {
 
     @Test
     public void setsLogsUri() {
-        HashMap<String, String> logsRequest = new HashMap<String, String>();
-        logsRequest.put("method", "GET");
-        logsRequest.put("uri", "/logs");
+        Request logsRequest = new Request();
+        logsRequest.setMethod("GET");
+        logsRequest.setUri("/logs");
         Route logsRoute = new Route(logsRequest);
 
         assertTrue(logsRoute.isLogsRequest());
@@ -40,9 +39,9 @@ public class RouteRequestUriParserTest {
 
     @Test
     public void setsMethodOptionsUri() {
-        HashMap<String, String> methodOptionsRequest = new HashMap<String, String>();
-        methodOptionsRequest.put("method", "GET");
-        methodOptionsRequest.put("uri", "/method_options");
+        Request methodOptionsRequest = new Request();
+        methodOptionsRequest.setMethod("OPTIONS");
+        methodOptionsRequest.setUri("/method_options");
         Route methodOptionsRoute = new Route(methodOptionsRequest);
 
         assertTrue(methodOptionsRoute.isMethodOptionsRequest());
@@ -50,9 +49,9 @@ public class RouteRequestUriParserTest {
 
     @Test
     public void setsParametersUri() {
-        HashMap<String, String> parametersRequest = new HashMap<String, String>();
-        parametersRequest.put("method", "GET");
-        parametersRequest.put("uri", "/parameters?query=true");
+        Request parametersRequest = new Request();
+        parametersRequest.setMethod("GET");
+        parametersRequest.setUri("/parameters?query=true");
         Route parametersRoute = new Route(parametersRequest);
 
         assertTrue(parametersRoute.isParametersRequest());
@@ -60,9 +59,9 @@ public class RouteRequestUriParserTest {
 
     @Test
     public void setsPartialContentUri() {
-        HashMap<String, String> partialContentRequest = new HashMap<String, String>();
-        partialContentRequest.put("method", "GET");
-        partialContentRequest.put("uri", "/partial_content.txt");
+        Request partialContentRequest = new Request();
+        partialContentRequest.setMethod("GET");
+        partialContentRequest.setUri("/partial_content.txt");
         Route partialContentRoute = new Route(partialContentRequest);
 
         assertTrue(partialContentRoute.isPartialContentRequest());
@@ -70,9 +69,9 @@ public class RouteRequestUriParserTest {
 
     @Test
     public void setsPatchContentUri() {
-        HashMap<String, String> patchRequest = new HashMap<String, String>();
-        patchRequest.put("method", "GET");
-        patchRequest.put("uri", "/patch-content.txt");
+        Request patchRequest = new Request();
+        patchRequest.setMethod("GET");
+        patchRequest.setUri("/patch-content.txt");
         Route patchRoute = new Route(patchRequest);
 
         assertTrue(patchRoute.isPatchContentRequest());
@@ -80,9 +79,9 @@ public class RouteRequestUriParserTest {
 
     @Test
     public void setsRedirectUri() {
-        HashMap<String, String> redirectRequest = new HashMap<String, String>();
-        redirectRequest.put("method", "GET");
-        redirectRequest.put("uri", "/redirect");
+        Request redirectRequest = new Request();
+        redirectRequest.setMethod("GET");
+        redirectRequest.setUri("/redirect");
         Route redirectRoute = new Route(redirectRequest);
 
         assertTrue(redirectRoute.isRedirectRequest());
@@ -90,9 +89,9 @@ public class RouteRequestUriParserTest {
 
     @Test
     public void setsRootUri() {
-        HashMap<String, String> rootRequest = new HashMap<String, String>();
-        rootRequest.put("method", "GET");
-        rootRequest.put("uri", "/");
+        Request rootRequest = new Request();
+        rootRequest.setMethod("GET");
+        rootRequest.setUri("/");
         Route rootRoute = new Route(rootRequest);
 
         assertTrue(rootRoute.isRootRequest());

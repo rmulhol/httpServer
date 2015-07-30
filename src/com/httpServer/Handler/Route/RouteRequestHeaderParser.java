@@ -14,10 +14,10 @@ class RouteRequestHeaderParser {
     }
 
     private boolean isAuthorized() {
-        return route.request.containsKey("authorization");
+        return route.request.getAuthorization();
     }
 
     private boolean hasRange() {
-        return route.request.containsKey("range");
+        return route.request.getRange() != null;
     }
 }

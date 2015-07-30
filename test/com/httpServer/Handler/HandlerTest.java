@@ -2,23 +2,18 @@ package com.httpServer.Handler;
 
 import com.httpServer.Handler.FileIO.MyFileReader;
 import com.httpServer.Handler.FileIO.MyFileWriter;
+import com.httpServer.RequestAdapter.Request;
 import org.junit.Test;
 
-import java.util.HashMap;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 public class HandlerTest {
 
     @Test
     public void getResponseDelivers200ForRootRequest() {
-        HashMap<String, String> rootRequest = new HashMap<String, String>();
-        rootRequest.put("method", "GET");
-        rootRequest.put("uri", "/");
-
-        HashMap<String, byte[]> rootResponse = new HashMap<String, byte[]>();
-        rootResponse.put("status", "200 OK\r\n".getBytes());
-        rootResponse.put("header", "\r\n".getBytes());
+        Request rootRequest = new Request();
+        rootRequest.setMethod("GET");
+        rootRequest.setUri("/");
 
         String directoryContents = "<p><a href='/file1'>file1</a></p>\r\n" +
                 "<p><a href='/file2'>file2</a></p>\r\n" +
@@ -30,112 +25,83 @@ public class HandlerTest {
                 "<p><a href='/patch-content.txt'>patch-content.txt</a></p>\r\n" +
                 "<p><a href='/text-file.txt'>text-file.txt</a></p>\r\n";
 
-        rootResponse.put("body", directoryContents.getBytes());
 
-        assertArrayEquals(rootResponse.get("status"), Handler.getResponse(rootRequest).get("status"));
-        assertArrayEquals(rootResponse.get("header"), Handler.getResponse(rootRequest).get("header"));
-        assertArrayEquals(rootResponse.get("body"), Handler.getResponse(rootRequest).get("body"));
+        assertArrayEquals("200 OK\r\n".getBytes(), Handler.getResponse(rootRequest).getStatus());
+        assertArrayEquals("\r\n".getBytes(), Handler.getResponse(rootRequest).getHeader());
+        assertArrayEquals(directoryContents.getBytes(), Handler.getResponse(rootRequest).getBody());
     }
 
     @Test
     public void getResponseDelivers200ForMethodOptionsRequest() {
-        HashMap<String, String> methodOptionsRequest = new HashMap<String, String>();
-        methodOptionsRequest.put("method", "OPTIONS");
-        methodOptionsRequest.put("uri", "/method_options");
+        Request methodOptionsRequest = new Request();
+        methodOptionsRequest.setMethod("OPTIONS");
+        methodOptionsRequest.setUri("/method_options");
 
-        HashMap<String, byte[]> methodOptionsResponse = new HashMap<String, byte[]>();
-        methodOptionsResponse.put("status", "200 OK\r\n".getBytes());
-        methodOptionsResponse.put("header", "Allow: GET,HEAD,POST,OPTIONS,PUT\r\n".getBytes());
-        methodOptionsResponse.put("body", "".getBytes());
-
-        assertArrayEquals(methodOptionsResponse.get("status"), Handler.getResponse(methodOptionsRequest).get("status"));
-        assertArrayEquals(methodOptionsResponse.get("header"), Handler.getResponse(methodOptionsRequest).get("header"));
-        assertArrayEquals(methodOptionsResponse.get("body"), Handler.getResponse(methodOptionsRequest).get("body"));
+        assertArrayEquals("200 OK\r\n".getBytes(), Handler.getResponse(methodOptionsRequest).getStatus());
+        assertArrayEquals("Allow: GET,HEAD,POST,OPTIONS,PUT\r\n".getBytes(), Handler.getResponse(methodOptionsRequest).getHeader());
+        assertArrayEquals("".getBytes(), Handler.getResponse(methodOptionsRequest).getBody());
     }
 
     @Test
     public void getResponseDelivers200ForParametersRequest() {
-        HashMap<String, String> parametersRequest = new HashMap<String, String>();
-        parametersRequest.put("method", "GET");
-        parametersRequest.put("uri", "/parameters?variable_1=Operators%20%3C%2C%20%3E%2C%20%3D%2C%20!%3D%3B%20%2B%2C" +
+        Request parametersRequest = new Request();
+        parametersRequest.setMethod("GET");
+        parametersRequest.setUri( "/parameters?variable_1=Operators%20%3C%2C%20%3E%2C%20%3D%2C%20!%3D%3B%20%2B%2C" +
                 "%20-%2C%20*%2C%20%26%2C%20%40%2C%20%23%2C%20%24%2C%20%5B%2C%20%5D%3A%20%22is%20that%20all%22%3F" +
                 "&variable_2=stuff");
 
-        HashMap<String, byte[]> parametersResponse = new HashMap<String, byte[]>();
-        parametersResponse.put("status", "200 OK\r\n".getBytes());
-        parametersResponse.put("header", "\r\n".getBytes());
-        parametersResponse.put("body", ("/parameters?variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: " +
-                "\"is that all\"?&variable_2 = stuff").getBytes());
+        byte[] responseBody = ("/parameters?variable_1 = Operators <, >, =, !=; +, -, *, &, @, #, $, [, ]: " +
+                "\"is that all\"?&variable_2 = stuff").getBytes();
 
-        assertArrayEquals(parametersResponse.get("status"), Handler.getResponse(parametersRequest).get("status"));
-        assertArrayEquals(parametersResponse.get("header"), Handler.getResponse(parametersRequest).get("header"));
-        assertArrayEquals(parametersResponse.get("body"), Handler.getResponse(parametersRequest).get("body"));
+        assertArrayEquals("200 OK\r\n".getBytes(), Handler.getResponse(parametersRequest).getStatus());
+        assertArrayEquals("\r\n".getBytes(), Handler.getResponse(parametersRequest).getHeader());
+        assertArrayEquals(responseBody, Handler.getResponse(parametersRequest).getBody());
     }
 
     @Test
     public void getResponseDelivers200ForGetFormRequest() {
-        HashMap<String, String> getFormRequest = new HashMap<String, String>();
-        getFormRequest.put("method", "GET");
-        getFormRequest.put("uri", "/form");
+        Request getFormRequest = new Request();
+        getFormRequest.setMethod("GET");
+        getFormRequest.setUri("/form");
 
-        HashMap<String, byte[]> getFormResponse = new HashMap<String, byte[]>();
-        getFormResponse.put("status", "200 OK\r\n".getBytes());
-        getFormResponse.put("header", "\r\n".getBytes());
-        getFormResponse.put("body", "\"My\"=\"Data\"\n".getBytes());
-
-        assertArrayEquals(getFormResponse.get("status"), Handler.getResponse(getFormRequest).get("status"));
-        assertArrayEquals(getFormResponse.get("header"), Handler.getResponse(getFormRequest).get("header"));
-        assertArrayEquals(getFormResponse.get("body"), Handler.getResponse(getFormRequest).get("body"));
+        assertArrayEquals("200 OK\r\n".getBytes(), Handler.getResponse(getFormRequest).getStatus());
+        assertArrayEquals("\r\n".getBytes(), Handler.getResponse(getFormRequest).getHeader());
+        assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), Handler.getResponse(getFormRequest).getBody());
     }
 
     @Test
     public void getResponseDelivers200ForPutFormRequest() {
-        HashMap<String, String> putFormRequest = new HashMap<String, String>();
-        putFormRequest.put("method", "PUT");
-        putFormRequest.put("uri", "/form");
-        putFormRequest.put("body", "\"My\"=\"Data\"");
+        Request putFormRequest = new Request();
+        putFormRequest.setMethod("PUT");
+        putFormRequest.setUri("/form");
+        putFormRequest.setBody("\"My\"=\"Data\"");
 
-        HashMap<String, byte[]> putFormResponse = new HashMap<String, byte[]>();
-        putFormResponse.put("status", "200 OK\r\n".getBytes());
-        putFormResponse.put("header", "\r\n".getBytes());
-        putFormResponse.put("body", "".getBytes());
-
-        assertArrayEquals(putFormResponse.get("status"), Handler.getResponse(putFormRequest).get("status"));
-        assertArrayEquals(putFormResponse.get("header"), Handler.getResponse(putFormRequest).get("header"));
-        assertArrayEquals(putFormResponse.get("body"), Handler.getResponse(putFormRequest).get("body"));
+        assertArrayEquals("200 OK\r\n".getBytes(), Handler.getResponse(putFormRequest).getStatus());
+        assertArrayEquals("\r\n".getBytes(), Handler.getResponse(putFormRequest).getHeader());
+        assertArrayEquals("".getBytes(), Handler.getResponse(putFormRequest).getBody());
     }
 
     @Test
     public void getResponseDelivers200ForPostFormRequest() {
-        HashMap<String, String> postFormRequest = new HashMap<String, String>();
-        postFormRequest.put("method", "POST");
-        postFormRequest.put("uri", "/form");
-        postFormRequest.put("body", "\"My\"=\"Data\"");
+        Request postFormRequest = new Request();
+        postFormRequest.setMethod("POST");
+        postFormRequest.setUri("/form");
+        postFormRequest.setBody("\"My\"=\"Data\"");
 
-        HashMap<String, byte[]> postFormResponse = new HashMap<String, byte[]>();
-        postFormResponse.put("status", "200 OK\r\n".getBytes());
-        postFormResponse.put("header", "\r\n".getBytes());
-        postFormResponse.put("body", "".getBytes());
-
-        assertArrayEquals(postFormResponse.get("status"), Handler.getResponse(postFormRequest).get("status"));
-        assertArrayEquals(postFormResponse.get("header"), Handler.getResponse(postFormRequest).get("header"));
-        assertArrayEquals(postFormResponse.get("body"), Handler.getResponse(postFormRequest).get("body"));
+        assertArrayEquals("200 OK\r\n".getBytes(), Handler.getResponse(postFormRequest).getStatus());
+        assertArrayEquals("\r\n".getBytes(), Handler.getResponse(postFormRequest).getHeader());
+        assertArrayEquals("".getBytes(), Handler.getResponse(postFormRequest).getBody());
     }
 
     @Test
     public void getResponseDelivers200ForDeleteFormRequest() {
-        HashMap<String, String> deleteFormRequest = new HashMap<String, String>();
-        deleteFormRequest.put("method", "DELETE");
-        deleteFormRequest.put("uri", "/form");
+        Request deleteFormRequest = new Request();
+        deleteFormRequest.setMethod("DELETE");
+        deleteFormRequest.setUri("/form");
 
-        HashMap<String, byte[]> deleteFormResponse = new HashMap<String, byte[]>();
-        deleteFormResponse.put("status", "200 OK\r\n".getBytes());
-        deleteFormResponse.put("header", "\r\n".getBytes());
-        deleteFormResponse.put("body", "".getBytes());
-
-        assertArrayEquals(deleteFormResponse.get("status"), Handler.getResponse(deleteFormRequest).get("status"));
-        assertArrayEquals(deleteFormResponse.get("header"), Handler.getResponse(deleteFormRequest).get("header"));
-        assertArrayEquals(deleteFormResponse.get("body"), Handler.getResponse(deleteFormRequest).get("body"));
+        assertArrayEquals("200 OK\r\n".getBytes(), Handler.getResponse(deleteFormRequest).getStatus());
+        assertArrayEquals("\r\n".getBytes(), Handler.getResponse(deleteFormRequest).getHeader());
+        assertArrayEquals("".getBytes(), Handler.getResponse(deleteFormRequest).getBody());
 
         MyFileWriter.editFile("/public/form", "\"My\"=\"Data\"");
         assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
@@ -143,10 +109,10 @@ public class HandlerTest {
 
     @Test
     public void getResponseModifiesFormForPutFormRequest() {
-        HashMap<String, String> putFormRequest = new HashMap<String, String>();
-        putFormRequest.put("method", "PUT");
-        putFormRequest.put("uri", "/form");
-        putFormRequest.put("body", "test data");
+        Request putFormRequest = new Request();
+        putFormRequest.setMethod("PUT");
+        putFormRequest.setUri("/form");
+        putFormRequest.setBody("test data");
 
         assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
         Handler.getResponse(putFormRequest);
@@ -157,10 +123,10 @@ public class HandlerTest {
 
     @Test
     public void getResponseModifiesFormForPostFormRequest() {
-        HashMap<String, String> postFormRequest = new HashMap<String, String>();
-        postFormRequest.put("method", "POST");
-        postFormRequest.put("uri", "/form");
-        postFormRequest.put("body", "test data");
+        Request postFormRequest = new Request();
+        postFormRequest.setMethod("POST");
+        postFormRequest.setUri("/form");
+        postFormRequest.setBody("test data");
 
         assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
         Handler.getResponse(postFormRequest);
@@ -171,9 +137,9 @@ public class HandlerTest {
 
     @Test
     public void getResponseDeletesFormsContentsForDeleteFormRequest() {
-        HashMap<String, String> deleteFormRequest = new HashMap<String, String>();
-        deleteFormRequest.put("method", "DELETE");
-        deleteFormRequest.put("uri", "/form");
+        Request deleteFormRequest = new Request();
+        deleteFormRequest.setMethod("DELETE");
+        deleteFormRequest.setUri("/form");
 
         assertArrayEquals("\"My\"=\"Data\"\n".getBytes(), MyFileReader.readFileContents("/form"));
         Handler.getResponse(deleteFormRequest);
@@ -184,27 +150,22 @@ public class HandlerTest {
 
     @Test
     public void getResponseDelivers204ForPatchRequest() {
-        HashMap<String, String> patchRequest = new HashMap<String, String>();
-        patchRequest.put("method", "PATCH");
-        patchRequest.put("uri", "/patch-content.txt");
-        patchRequest.put("body", "default content");
+        Request patchRequest = new Request();
+        patchRequest.setMethod("PATCH");
+        patchRequest.setUri("/patch-content.txt");
+        patchRequest.setBody("default content");
 
-        HashMap<String, byte[]> patchResponse = new HashMap<String, byte[]>();
-        patchResponse.put("status", "204 No Content\r\n".getBytes());
-        patchResponse.put("header", "\r\n".getBytes());
-        patchResponse.put("body", "".getBytes());
-
-        assertArrayEquals(patchResponse.get("status"), Handler.getResponse(patchRequest).get("status"));
-        assertArrayEquals(patchResponse.get("header"), Handler.getResponse(patchRequest).get("header"));
-        assertArrayEquals(patchResponse.get("body"), Handler.getResponse(patchRequest).get("body"));
+        assertArrayEquals("204 No Content\r\n".getBytes(), Handler.getResponse(patchRequest).getStatus());
+        assertArrayEquals("\r\n".getBytes(), Handler.getResponse(patchRequest).getHeader());
+        assertArrayEquals("".getBytes(), Handler.getResponse(patchRequest).getBody());
     }
 
     @Test
     public void getResponseModifiesPatchContentForPatchRequest() {
-        HashMap<String, String> patchRequest = new HashMap<String, String>();
-        patchRequest.put("method", "PATCH");
-        patchRequest.put("uri", "/patch-content.txt");
-        patchRequest.put("body", "test content");
+        Request patchRequest = new Request();
+        patchRequest.setMethod("PATCH");
+        patchRequest.setUri("/patch-content.txt");
+        patchRequest.setBody("test content");
 
         assertArrayEquals("default content\n".getBytes(), MyFileReader.readFileContents("/patch-content.txt"));
         Handler.getResponse(patchRequest);
@@ -215,82 +176,57 @@ public class HandlerTest {
 
     @Test
     public void getResponseDelivers206ForPartialContentRequest() {
-        HashMap<String, String> partialContentRequest = new HashMap<String, String>();
-        partialContentRequest.put("method", "GET");
-        partialContentRequest.put("uri", "/partial_content.txt");
-        partialContentRequest.put("range", "0-4");
+        Request partialContentRequest = new Request();
+        partialContentRequest.setMethod("GET");
+        partialContentRequest.setUri("/partial_content.txt");
+        partialContentRequest.setRange("0-4");
 
-        HashMap<String, byte[]> partialContentResponse = new HashMap<String, byte[]>();
-        partialContentResponse.put("status", "206 Partial Content\r\n".getBytes());
-        partialContentResponse.put("header", "\r\n".getBytes());
-        partialContentResponse.put("body", "This ".getBytes());
-
-        assertArrayEquals(partialContentResponse.get("status"), Handler.getResponse(partialContentRequest).get("status"));
-        assertArrayEquals(partialContentResponse.get("header"), Handler.getResponse(partialContentRequest).get("header"));
-        assertArrayEquals(partialContentResponse.get("body"), Handler.getResponse(partialContentRequest).get("body"));
+        assertArrayEquals("206 Partial Content\r\n".getBytes(), Handler.getResponse(partialContentRequest).getStatus());
+        assertArrayEquals("\r\n".getBytes(), Handler.getResponse(partialContentRequest).getHeader());
+        assertArrayEquals("This ".getBytes(), Handler.getResponse(partialContentRequest).getBody());
     }
 
     @Test
     public void getResponseDelivers302ForRedirectRequest() {
-        HashMap<String, String> redirectRequest = new HashMap<String, String>();
-        redirectRequest.put("method", "GET");
-        redirectRequest.put("uri", "/redirect");
+        Request redirectRequest = new Request();
+        redirectRequest.setMethod("GET");
+        redirectRequest.setUri("/redirect");
 
-        HashMap<String, byte[]> redirectResponse = new HashMap<String, byte[]>();
-        redirectResponse.put("status", "302 Found\r\n".getBytes());
-        redirectResponse.put("header", "Location: http://localhost:5000/\r\n".getBytes());
-        redirectResponse.put("body", "".getBytes());
-
-        assertArrayEquals(redirectResponse.get("status"), Handler.getResponse(redirectRequest).get("status"));
-        assertArrayEquals(redirectResponse.get("header"), Handler.getResponse(redirectRequest).get("header"));
-        assertArrayEquals(redirectResponse.get("body"), Handler.getResponse(redirectRequest).get("body"));
+        assertArrayEquals("302 Found\r\n".getBytes(), Handler.getResponse(redirectRequest).getStatus());
+        assertArrayEquals("Location: http://localhost:5000/\r\n".getBytes(), Handler.getResponse(redirectRequest).getHeader());
+        assertArrayEquals("".getBytes(), Handler.getResponse(redirectRequest).getBody());
     }
 
     @Test
     public void getResponseDelivers401ForUnauthorizedLogsRequest() {
-        HashMap<String, String> unauthorizedLogsRequest = new HashMap<String, String>();
-        unauthorizedLogsRequest.put("method", "GET");
-        unauthorizedLogsRequest.put("uri", "/logs");
+        Request unauthorizedLogsRequest = new Request();
+        unauthorizedLogsRequest.setMethod("GET");
+        unauthorizedLogsRequest.setUri("/logs");
 
-        HashMap<String, byte[]> unauthorizedResponse= new HashMap<String, byte[]>();
-        unauthorizedResponse.put("status", "401 Unauthorized\r\n".getBytes());
-        unauthorizedResponse.put("header", "\r\n".getBytes());
-        unauthorizedResponse.put("body", "Authentication required".getBytes());
-
-        assertArrayEquals(unauthorizedResponse.get("status"), Handler.getResponse(unauthorizedLogsRequest).get("status"));
-        assertArrayEquals(unauthorizedResponse.get("header"), Handler.getResponse(unauthorizedLogsRequest).get("header"));
-        assertArrayEquals(unauthorizedResponse.get("body"), Handler.getResponse(unauthorizedLogsRequest).get("body"));
+        assertArrayEquals("401 Unauthorized\r\n".getBytes(), Handler.getResponse(unauthorizedLogsRequest).getStatus());
+        assertArrayEquals("\r\n".getBytes(), Handler.getResponse(unauthorizedLogsRequest).getHeader());
+        assertArrayEquals("Authentication required".getBytes(), Handler.getResponse(unauthorizedLogsRequest).getBody());
     }
 
     @Test
     public void getResponseDelivers404ForUnrecognizedRequest() {
-        HashMap<String, String> unrecognizedRequest = new HashMap<String, String>();
-        unrecognizedRequest.put("method", "GET");
-        unrecognizedRequest.put("uri", "/foobar");
+        Request unrecognizedRequest = new Request();
+        unrecognizedRequest.setMethod("GET");
+        unrecognizedRequest.setUri("/foobar");
 
-        HashMap<String, byte[]> fourOhFourResponse = new HashMap<String, byte[]>();
-        fourOhFourResponse.put("status", "404 Not Found\r\n".getBytes());
-        fourOhFourResponse.put("header", "\r\n".getBytes());
-        fourOhFourResponse.put("body", "".getBytes());
-
-        assertArrayEquals(fourOhFourResponse.get("status"), Handler.getResponse(unrecognizedRequest).get("status"));
-        assertArrayEquals(fourOhFourResponse.get("header"), Handler.getResponse(unrecognizedRequest).get("header"));
-        assertArrayEquals(fourOhFourResponse.get("body"), Handler.getResponse(unrecognizedRequest).get("body"));
+        assertArrayEquals("404 Not Found\r\n".getBytes(), Handler.getResponse(unrecognizedRequest).getStatus());
+        assertArrayEquals("\r\n".getBytes(), Handler.getResponse(unrecognizedRequest).getHeader());
+        assertArrayEquals("".getBytes(), Handler.getResponse(unrecognizedRequest).getBody());
     }
 
     @Test
     public void getResponseDelivers405ForNotAllowedRequest() {
-        HashMap<String, String> notAllowedRequest = new HashMap<String, String>();
-        notAllowedRequest.put("method", "PUT");
-        notAllowedRequest.put("uri", "/file1");
+        Request notAllowedRequest = new Request();
+        notAllowedRequest.setMethod("PUT");
+        notAllowedRequest.setUri("/file1");
 
-        HashMap<String, byte[]> notAllowedResponse = new HashMap<String, byte[]>();
-        notAllowedResponse.put("status", "405 Method Not Allowed\r\n".getBytes());
-        notAllowedResponse.put("header", "\r\n".getBytes());
-        notAllowedResponse.put("body", "".getBytes());
-
-        assertArrayEquals(notAllowedResponse.get("status"), Handler.getResponse(notAllowedRequest).get("status"));
-        assertArrayEquals(notAllowedResponse.get("header"), Handler.getResponse(notAllowedRequest).get("header"));
-        assertArrayEquals(notAllowedResponse.get("body"), Handler.getResponse(notAllowedRequest).get("body"));
+        assertArrayEquals("405 Method Not Allowed\r\n".getBytes(), Handler.getResponse(notAllowedRequest).getStatus());
+        assertArrayEquals("\r\n".getBytes(), Handler.getResponse(notAllowedRequest).getHeader());
+        assertArrayEquals("".getBytes(), Handler.getResponse(notAllowedRequest).getBody());
     }
 }

@@ -2,34 +2,33 @@ package com.httpServer.Handler.SubHandlers;
 
 import com.httpServer.Handler.ResponseContents.ResponseStatus;
 import com.httpServer.Handler.Route.Route;
-
-import java.util.HashMap;
+import com.httpServer.ResponseAdapter.Response;
 
 public class StatusHandler {
 
     private final Route requestRoute;
-    private final HashMap<String, byte[]> response;
+    private final Response response;
 
-    public StatusHandler(Route requestRoute, HashMap<String, byte[]> response) {
+    public StatusHandler(Route requestRoute, Response response) {
         this.requestRoute = requestRoute;
         this.response = response;
     }
 
     public void setStatus() {
         if (requestRoute.isOkStatus()) {
-            response.put("status", ResponseStatus.ok());
+            response.setStatus(ResponseStatus.ok());
         } else if (requestRoute.isNoContentStatus()) {
-            response.put("status", ResponseStatus.noContent());
+            response.setStatus(ResponseStatus.noContent());
         } else if (requestRoute.isPartialContentStatus()) {
-            response.put("status", ResponseStatus.partialContent());
+            response.setStatus(ResponseStatus.partialContent());
         } else if (requestRoute.isRedirectStatus()) {
-            response.put("status", ResponseStatus.redirect());
+            response.setStatus(ResponseStatus.redirect());
         } else if (requestRoute.isNotAllowedStatus()) {
-            response.put("status", ResponseStatus.notAllowed());
+            response.setStatus(ResponseStatus.notAllowed());
         } else if (requestRoute.isUnauthorizedStatus()) {
-            response.put("status", ResponseStatus.unauthorized());
+            response.setStatus(ResponseStatus.unauthorized());
         } else {
-            response.put("status", ResponseStatus.fourOhFour());
+            response.setStatus(ResponseStatus.fourOhFour());
         }
     }
 }
