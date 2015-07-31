@@ -12,11 +12,16 @@ import static org.junit.Assert.*;
 public class RequestReaderTest {
 
     @Test
+    public void requestReaderExists() {
+        assertNotNull(new RequestReader());
+    }
+
+    @Test
     public void readsRequestFromStream() {
-        InputStream mockInput = new ByteArrayInputStream("GET / HTTP/1.1\r\n\r\n".getBytes());
+        InputStream mockInput = new ByteArrayInputStream("GET / HTTP/1.1\r\n\r\nHi".getBytes());
         BufferedReader mockReader = new BufferedReader(new InputStreamReader(mockInput));
 
-        assertEquals(RequestReader.read(mockReader), "GET / HTTP/1.1\r\n\r\n");
+        assertEquals("GET / HTTP/1.1\r\n\r\nHi", RequestReader.read(mockReader));
     }
 
 }

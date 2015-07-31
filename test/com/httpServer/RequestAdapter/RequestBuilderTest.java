@@ -7,6 +7,11 @@ import static org.junit.Assert.*;
 public class RequestBuilderTest {
 
     @Test
+    public void requestBuilderExists() {
+        assertNotNull(new RequestBuilder());
+    }
+
+    @Test
     public void buildsGetRequest() {
         String getRequest = "GET / HTTP/1.1\r\n";
 
@@ -47,5 +52,16 @@ public class RequestBuilderTest {
         assertEquals("GET", request.getMethod());
         assertEquals("/logs", request.getUri());
         assertTrue(request.getAuthorization());
+    }
+
+    @Test
+    public void buildsParametersRequest() {
+        String parametersRequest = "GET /parameters?query=true\r\n";
+
+        Request request = RequestBuilder.buildRequest(parametersRequest);
+
+        assertEquals("GET", request.getMethod());
+        assertEquals("/parameters", request.getUri());
+        assertEquals("query=true", request.getParameters());
     }
 }

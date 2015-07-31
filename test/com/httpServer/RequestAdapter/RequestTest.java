@@ -37,6 +37,21 @@ public class RequestTest {
     }
 
     @Test
+    public void defaultsParametersToNull() {
+        Request noParametersRequest = new Request();
+
+        assertNull(noParametersRequest.getParameters());
+    }
+
+    @Test
+    public void setsParameters() {
+        Request parametersRequest = new Request();
+        parametersRequest.setParameters("abc");
+
+        assertEquals("abc", parametersRequest.getParameters());
+    }
+
+    @Test
     public void defaultsBodyToNull() {
         Request noBodyRequest = new Request();
 

@@ -1,5 +1,7 @@
 package com.httpServer;
 
+import com.httpServer.Config.RouteConfig;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,6 +25,7 @@ class Main {
         }
 
         ServerSocket serverSocket = new ServerSocket(5000);
+        RouteConfig.setupRoutes();
         ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
         serverLogger.log(Level.INFO, "Server starting... ");

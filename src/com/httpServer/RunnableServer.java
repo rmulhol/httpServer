@@ -1,10 +1,12 @@
 package com.httpServer;
 
+import com.httpServer.Handlers.Handler;
 import com.httpServer.RequestAdapter.Request;
 import com.httpServer.RequestAdapter.RequestBuilder;
 import com.httpServer.RequestAdapter.RequestReader;
 import com.httpServer.ResponseAdapter.Response;
 import com.httpServer.ResponseAdapter.ResponseJoiner;
+import com.httpServer.Router.RouteRegistrar;
 
 import java.io.*;
 import java.net.Socket;
@@ -33,7 +35,8 @@ class RunnableServer implements Runnable {
             serverLogger.log(Level.INFO, rawRequest);
 
             Request request = RequestBuilder.buildRequest(rawRequest);
-            Response response = com.httpServer.Handler.Handler.getResponse(request);
+            Handler handler = RouteRegistrar.getRoute(request);
+            Response response = handler.respondToRequest(request);
 
             byte[] output = ResponseJoiner.join(response);
 

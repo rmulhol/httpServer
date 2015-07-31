@@ -9,9 +9,11 @@ public class RequestBuilder {
         Request request = new Request();
         String[] requestArray = parseRequestArray(rawRequest);
         String[] requestLine = parseRequestLine(requestArray);
+        String[] uri_with_parameters = requestLine[1].split("\\?");
 
         setMethod(requestLine[0], request);
-        setUri(requestLine[1], request);
+        setUri(uri_with_parameters[0], request);
+        setParameters(uri_with_parameters, request);
         setBody(requestArray[requestArray.length - 1], request);
 
         setRange(rawRequest, request);
@@ -34,6 +36,12 @@ public class RequestBuilder {
 
     private static void setUri(String uri, Request request) {
         request.setUri(uri);
+    }
+
+    private static void setParameters(String[] uriWithParameters, Request request) {
+        if (uriWithParameters.length > 1) {
+            request.setParameters(uriWithParameters[1]);
+        }
     }
 
     private static void setBody(String body, Request request) {

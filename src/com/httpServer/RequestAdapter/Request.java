@@ -4,6 +4,7 @@ public class Request {
 
     private String method;
     private String uri;
+    private String parameters;
     private String body;
     private String range;
     private boolean authorization;
@@ -26,6 +27,14 @@ public class Request {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public String getParameters() {
+        return this.parameters;
+    }
+
+    public void setParameters(String parameters) {
+        this.parameters = parameters;
     }
 
     public String getBody() {
