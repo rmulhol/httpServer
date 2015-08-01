@@ -1,10 +1,10 @@
 package com.httpServer.Router;
 
+import com.httpServer.Handlers.EditFileHandler;
 import com.httpServer.Handlers.FourOhFourHandler;
 import com.httpServer.Handlers.MockHandler;
 import com.httpServer.Handlers.NotAllowedHandler;
 import com.httpServer.RequestAdapter.Request;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,12 +18,18 @@ public class RouteRegistrarTest {
     }
 
     @Test
+    public void routesRegistrarExists() {
+        assertNotNull(new RouteRegistrar());
+    }
+
+    @Test
     public void addsARoute() {
         assertTrue(RouteRegistrar.getRoutes().isEmpty());
         RouteRegistrar.addRoute("/test", "GET", new MockHandler());
-        assertTrue(!RouteRegistrar.getRoutes().isEmpty());
+        assertTrue(RouteRegistrar.getRoutes().get("/test").containsKey("GET"));
     }
 
+    @Test
     public void addsAdditionalRoutesForSameUriWithDifferentMethod() {
         RouteRegistrar.addRoute("/test", "GET", new MockHandler());
         RouteRegistrar.addRoute("/test", "POST", new MockHandler());
@@ -33,7 +39,7 @@ public class RouteRegistrarTest {
     }
 
     @Test
-    public void returnsHandlerAssociatedwithKnownRoute() {
+    public void returnsHandlerAssociatedWithKnownRoute() {
         RouteRegistrar.addRoute("/test", "GET", new MockHandler());
 
         Request testRequest = new Request();
@@ -41,6 +47,18 @@ public class RouteRegistrarTest {
         testRequest.setUri("/test");
 
         assertEquals(MockHandler.class, RouteRegistrar.getRoute(testRequest).getClass());
+    }
+
+    @Test
+    public void returnsProperHandlerIf2MethodsForKnownUri() {
+        RouteRegistrar.addRoute("/test", "GET", new MockHandler());
+        RouteRegistrar.addRoute("/test", "POST", new EditFileHandler());
+
+        Request postTestRequest = new Request();
+        postTestRequest.setMethod("POST");
+        postTestRequest.setUri("/test");
+
+        assertEquals(EditFileHandler.class, RouteRegistrar.getRoute(postTestRequest).getClass());
     }
 
     @Test
