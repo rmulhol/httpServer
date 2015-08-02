@@ -2,10 +2,10 @@ package com.httpServer.Config;
 
 public class ServerConfig {
 
-    private int port;
-    private String directory;
+    private final int port;
+    private final String directory;
 
-    ServerConfig(String[] args) {
+    public ServerConfig(String[] args) {
         port = parsePort(args);
         directory = parseDirectory(args);
     }
