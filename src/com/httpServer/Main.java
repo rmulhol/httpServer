@@ -1,5 +1,6 @@
 package com.httpServer;
 
+import com.httpServer.Config.LoggerConfig;
 import com.httpServer.Config.RouteConfig;
 import com.httpServer.Config.ServerConfig;
 
@@ -12,8 +13,11 @@ class Main {
             Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) throws IOException {
+        LoggerConfig.configureLogs(serverLogger);
         ServerConfig config = new ServerConfig(args);
+
         RouteConfig.setupRoutes();
+
         new ServerRunner().run(serverLogger, config);
     }
 }
