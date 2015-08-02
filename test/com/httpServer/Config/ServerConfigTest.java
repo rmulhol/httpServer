@@ -11,13 +11,15 @@ public class ServerConfigTest {
         String[] args = new String[2];
         args[0] = "-p";
         args[1] = "8000";
-        assertEquals(8000, new ServerConfig(args).getPort());
+        ServerConfig.configureServer(args);
+        assertEquals(8000, ServerConfig.getPort());
     }
 
     @Test
     public void defaultsPortTo5000() {
         String[] args = new String[0];
-        assertEquals(5000, new ServerConfig(args).getPort());
+        ServerConfig.configureServer(args);
+        assertEquals(5000, ServerConfig.getPort());
     }
 
     @Test
@@ -25,12 +27,14 @@ public class ServerConfigTest {
         String[] args = new String[2];
         args[0] = "-d";
         args[1] = "/directory";
-        assertEquals("/directory", new ServerConfig(args).getDirectory());
+        ServerConfig.configureServer(args);
+        assertEquals("/directory", ServerConfig.getDirectory());
     }
 
     @Test
     public void defaultsDirectoryToPublic() {
         String[] args = new String[0];
-        assertEquals("/public", new ServerConfig(args).getDirectory());
+        ServerConfig.configureServer(args);
+        assertEquals("/public", ServerConfig.getDirectory());
     }
 }

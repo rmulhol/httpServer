@@ -14,10 +14,10 @@ class Main {
 
     public static void main(String[] args) throws IOException {
         LoggerConfig.configureLogs(serverLogger);
-        ServerConfig config = new ServerConfig(args);
+        ServerConfig.configureServer(args);
 
         RouteConfig.setupRoutes();
 
-        new ServerRunner().run(serverLogger, config);
+        new ServerRunner().run(serverLogger);
     }
 }

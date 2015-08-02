@@ -2,23 +2,23 @@ package com.httpServer.Config;
 
 public class ServerConfig {
 
-    private final int port;
-    private final String directory;
+    private static int port;
+    private static String directory;
 
-    public ServerConfig(String[] args) {
+    public static void configureServer(String[] args) {
         port = parsePort(args);
         directory = parseDirectory(args);
     }
 
-    public int getPort() {
+    public static int getPort() {
         return port;
     }
 
-    public String getDirectory() {
+    public static String getDirectory() {
         return directory;
     }
 
-    private int parsePort(String[] args) {
+    private static int parsePort(String[] args) {
         int port = 5000;
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-p")) {
@@ -28,7 +28,7 @@ public class ServerConfig {
         return port;
     }
 
-    private String parseDirectory(String[] args) {
+    private static String parseDirectory(String[] args) {
         String directory = "/public";
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-d")) {

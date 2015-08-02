@@ -12,11 +12,11 @@ import java.util.logging.Logger;
 
 class ServerRunner {
 
-    public void run(Logger logger, ServerConfig config) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(config.getPort());
+    public void run(Logger logger) throws IOException {
+        ServerSocket serverSocket = new ServerSocket(ServerConfig.getPort());
         ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
-        logger.log(Level.INFO, "Server starting on port " + config.getPort());
+        logger.log(Level.INFO, "Server starting on port " + ServerConfig.getPort());
 
         while (true) {
             Socket clientSocket = serverSocket.accept();
