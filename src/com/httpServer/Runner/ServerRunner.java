@@ -1,4 +1,4 @@
-package com.httpServer;
+package com.httpServer.Runner;
 
 import com.httpServer.Config.ServerConfig;
 
@@ -8,15 +8,14 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
-class ServerRunner {
+public class ServerRunner {
 
-    public void run(Logger logger) throws IOException {
+    public void run() throws IOException {
         ServerSocket serverSocket = new ServerSocket(ServerConfig.getPort());
         ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
-        logger.log(Level.INFO, "Server starting on port " + ServerConfig.getPort());
+        com.httpServer.Main.serverLogger.log(Level.INFO, "Server starting on port " + ServerConfig.getPort());
 
         while (true) {
             Socket clientSocket = serverSocket.accept();
