@@ -17,7 +17,6 @@ public class RequestReader {
             while (in.ready()) {
                 request += (char) in.read();
             }
-            requestLogger.log(Level.INFO, request);
             return request;
         } catch (IOException e) {
             requestLogger.log(Level.SEVERE, "Error reading request", e);

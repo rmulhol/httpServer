@@ -7,6 +7,11 @@ import static org.junit.Assert.*;
 public class ResponseStatusTest {
 
     @Test
+    public void responseStatusExists() {
+        assertNotNull(new ResponseStatus());
+    }
+
+    @Test
     public void okReturns200() {
         assertArrayEquals("200 OK\r\n".getBytes(), ResponseStatus.ok());
     }

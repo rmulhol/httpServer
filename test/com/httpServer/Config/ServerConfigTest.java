@@ -7,6 +7,11 @@ import static org.junit.Assert.*;
 public class ServerConfigTest {
 
     @Test
+    public void serverConfigExists() {
+        assertNotNull(new ServerConfig());
+    }
+
+    @Test
     public void parsesPort() {
         String[] args = new String[2];
         args[0] = "-p";

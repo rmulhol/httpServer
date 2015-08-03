@@ -7,6 +7,11 @@ import static org.junit.Assert.*;
 public class ParameterDecoderTest {
 
     @Test
+    public void parameterDecoderExists() {
+        assertNotNull(new ParameterDecoder());
+    }
+
+    @Test
     public void testParsesRootRequest() {
         assertEquals("GET / HTTP/1.1", ParameterDecoder.decode("GET / HTTP/1.1"));
     }

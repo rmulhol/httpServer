@@ -5,6 +5,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ResponseBodyTest {
+
+    @Test
+    public void responseBodyExists() {
+        assertNotNull(new ResponseBody());
+    }
+
     @Test
     public void publicDirectoryLinksReturnsLinksToFilesInPublicDirectory() {
         String directoryContents = "<p><a href='/file1'>file1</a></p>\r\n" +

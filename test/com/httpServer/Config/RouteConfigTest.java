@@ -13,6 +13,7 @@ public class RouteConfigTest {
     @Before
     public void clearRoutes() {
         RouteRegistrar.clearRoutes();
+        ServerConfig.configureServer(new String[0]);
         RouteConfig.setupRoutes();
     }
 

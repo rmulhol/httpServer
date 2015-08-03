@@ -7,6 +7,11 @@ import static org.junit.Assert.*;
 public class ResponseHeaderTest {
 
     @Test
+    public void responseHeaderExists() {
+        assertNotNull(new ResponseHeader());
+    }
+
+    @Test
     public void locationDeliversRootPath() {
         assertArrayEquals("Location: http://localhost:5000/\r\n".getBytes(), ResponseHeader.location());
     }
